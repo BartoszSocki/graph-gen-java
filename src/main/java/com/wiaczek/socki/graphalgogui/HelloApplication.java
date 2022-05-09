@@ -1,4 +1,4 @@
-package com.example.graphalgogui;
+package com.wiaczek.socki.graphalgogui;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

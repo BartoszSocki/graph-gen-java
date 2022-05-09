@@ -1,4 +1,4 @@
-package com.example.graphalgogui;
+package com.wiaczek.socki.graphalgogui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

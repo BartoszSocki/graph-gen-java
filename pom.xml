@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.example</groupId>
+    <groupId>com.wiaczek.socki</groupId>
     <artifactId>graphalgo-gui</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>graphalgo-gui</name>
@@ -64,7 +64,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.example.graphalgogui/com.example.graphalgogui.HelloApplication</mainClass>
+                            <mainClass>com.example.graphalgogui/com.wiaczek.socki.graphalgogui.HelloApplication</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>

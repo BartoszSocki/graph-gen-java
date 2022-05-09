@@ -4,6 +4,6 @@ module com.example.graphalgogui {
 
     requires org.kordamp.bootstrapfx.core;
 
-    opens com.example.graphalgogui to javafx.fxml;
-    exports com.example.graphalgogui;
+    opens com.wiaczek.socki.graphalgogui to javafx.fxml;
+    exports com.wiaczek.socki.graphalgogui;
 }
