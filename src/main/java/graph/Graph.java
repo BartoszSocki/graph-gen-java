@@ -37,7 +37,7 @@ public class Graph {
         Graph graph = new Graph(rows, cols);
         Random random = new Random(seed);
 
-        for (int i = 0; i < graph.getRows(); i++) {
+        for (int i = 0; i < graph.getRows() - 1; i++) {
             for (int j = 0; j < graph.getCols(); j++) {
                 double weight = uniformRandom(random, min, max);
                 graph.addDirectedEdge(graph.xyToIndex(i, j), graph.xyToIndex(i + 1, j), weight);
@@ -46,7 +46,7 @@ public class Graph {
         }
 
         for (int i = 0; i < graph.getRows(); i++) {
-            for (int j = 0; j < graph.getCols(); j++) {
+            for (int j = 0; j < graph.getCols() - 1; j++) {
                 double weight = uniformRandom(random, min, max);
                 graph.addDirectedEdge(graph.xyToIndex(i, j), graph.xyToIndex(i, j + 1), weight);
                 graph.addDirectedEdge(graph.xyToIndex(i, j + 1), graph.xyToIndex(i, j), weight);
@@ -63,7 +63,11 @@ public class Graph {
     private Graph(int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
-        this.edges = new ArrayList<>();
+        this.edges = new ArrayList<>(rows * cols);
+        for (int i = 0; i < rows * cols; i++) {
+            this.edges.add(i, new LinkedList<>());
+        }
+
     }
 
     public int getRows() {
@@ -76,5 +80,17 @@ public class Graph {
 
     public ArrayList<LinkedList<Edge>> getEdges() {
         return edges;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < this.getCols() * this.getRows(); i++) {
+            builder.append(i)
+                    .append(": ")
+                    .append(this.edges.get(i))
+                    .append("\n");
+        }
+        return builder.toString();
     }
 }
