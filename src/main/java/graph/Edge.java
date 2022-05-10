@@ -1,5 +1,7 @@
 package graph;
 
+import java.util.Locale;
+
 public class Edge {
     private int endVertex;
     private double weight;
@@ -19,6 +21,6 @@ public class Edge {
 
     @Override
     public String toString() {
-        return "{" + endVertex + ", " + String.format("%.2f", weight) + '}';
+        return endVertex + " :" + weight;
     }
 }
