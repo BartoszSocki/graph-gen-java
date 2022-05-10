@@ -2,7 +2,7 @@ package algorithms;
 
 import java.util.Comparator;
 
-public class QueuedVertex implements Comparator<QueuedVertex>
+public class QueuedVertex implements Comparable<QueuedVertex>
 {
     private final int id;
     private double dist;
@@ -24,14 +24,10 @@ public class QueuedVertex implements Comparator<QueuedVertex>
         this.dist = dist;
     }
 
-    public QueuedVertex(int id) {
-        this.id = id;
-        this.dist = Double.MAX_VALUE;
-    }
 
     @Override
-    public int compare(QueuedVertex o1, QueuedVertex o2) {
-        return Double.compare(o1.getDist(), o2.getDist());
+    public int compareTo(QueuedVertex o) {
+        return Double.compare(this.getDist(), o.getDist());
     }
 }
 

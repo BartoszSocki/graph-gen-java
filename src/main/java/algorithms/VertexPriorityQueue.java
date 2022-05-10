@@ -4,8 +4,6 @@ import java.util.Comparator;
 
 public class VertexPriorityQueue {
 
-
-
     private int size;
     private int capacity;
 
@@ -35,7 +33,7 @@ public class VertexPriorityQueue {
         int index = i;
         int parent_index = getParentIndex(index);
 
-        while((parent_index>=0) && (vertices[parent_index].getDist() > vertices[index].getDist()))
+        while((parent_index>=0) && (vertices[parent_index].compareTo(vertices[index])>0))
         {
             swapQueuedVertex(index, parent_index);
 
@@ -53,10 +51,10 @@ public class VertexPriorityQueue {
         while(left_child_index < size)
         {
             int smaller_child_index = left_child_index;
-            if(right_child_index < size && vertices[right_child_index].getDist() < vertices[left_child_index].getDist())
+            if(right_child_index < size && (vertices[right_child_index].compareTo(vertices[left_child_index]) < 0))
                 smaller_child_index = right_child_index;
 
-            if(vertices[index].getDist() < vertices[smaller_child_index].getDist())
+            if(vertices[index].compareTo(vertices[smaller_child_index]) < 0)
                 break;
 
             swapQueuedVertex(index, smaller_child_index);
