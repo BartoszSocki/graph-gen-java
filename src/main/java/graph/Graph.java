@@ -1,8 +1,12 @@
 package graph;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Graph {
     private final int rows;
@@ -56,8 +60,47 @@ public class Graph {
         return graph;
     }
 
-    public static Graph readFromFile() {
-        return null;
+    public static Graph readFromFile(String filepath) throws Exception {
+        Scanner lineScanner = new Scanner(new File(filepath));
+        int rows, cols;
+        rows = lineScanner.nextInt();
+        cols = lineScanner.nextInt();
+        if (rows < 1 || cols < 1)
+            throw new Exception(); // TODO add custom exception
+        // go to another line
+        lineScanner.nextLine();
+
+        Graph graph = new Graph(rows, cols);
+
+        int begVertex = 0;
+        while (lineScanner.hasNext() && begVertex < rows * cols) {
+            Scanner scanner = new Scanner(lineScanner.nextLine());
+            // skip empty spaces && colons
+            scanner.useDelimiter("(\\s*:\\s*|\\s+)");
+
+            while (scanner.hasNext()) {
+                int endVertex = scanner.nextInt();
+                // for some reason scanner.nextDouble does not work
+                double weight = Double.parseDouble(scanner.next());
+                graph.addDirectedEdge(begVertex, endVertex, weight);
+
+            }
+            begVertex++;
+            scanner.close();
+        }
+
+        // check if there are extra tokens at the end of file
+        if (begVertex + 1 != rows * cols || lineScanner.hasNext())
+            throw new Exception();
+
+        lineScanner.close();
+        return graph;
+    }
+
+    public static void writeToFile(Graph graph, String filepath) throws Exception {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(filepath));
+        writer.write(graph.toString());
+        writer.close();
     }
 
     private Graph(int rows, int cols) {
@@ -67,7 +110,6 @@ public class Graph {
         for (int i = 0; i < rows * cols; i++) {
             this.edges.add(i, new LinkedList<>());
         }
-
     }
 
     public int getRows() {
@@ -85,11 +127,15 @@ public class Graph {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
+        builder.append(this.getRows()).append(" ").append(this.getCols()).append("\n");
+
         for (int i = 0; i < this.getCols() * this.getRows(); i++) {
-            builder.append(i)
-                    .append(": ")
-                    .append(this.edges.get(i))
-                    .append("\n");
+            String edges = this.edges.get(i)
+                    .toString()
+                    .replace("[", "")
+                    .replace("]", "")
+                    .replace(",", " ");
+            builder.append("\t").append(edges).append("\n");
         }
         return builder.toString();
     }

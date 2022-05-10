@@ -1,5 +1,6 @@
 package graph;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,5 +15,10 @@ class GraphTest {
 
     @Test
     void readFromFile() {
+        String filepath = "src/test/resources/example_graph.txt";
+        assertDoesNotThrow(() -> {
+            Graph graph = Graph.readFromFile(filepath);
+            System.out.println(graph);
+        });
     }
 }
