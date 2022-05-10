@@ -9,11 +9,11 @@ public class Dijkstra {
 
     public static DijkstraResult dijkstra(Graph g, int source) throws VertexPriorityQueueException {
         int n = g.getCols() * g.getRows();
-
-
         int[] pred = new int[n];
         double[] dist = new double[n];
+
         Arrays.fill(pred, -1);
+        Arrays.fill(dist, Double.MAX_VALUE);
 
         VertexPriorityQueue q = new VertexPriorityQueue(n);
         q.add(source, 0);
