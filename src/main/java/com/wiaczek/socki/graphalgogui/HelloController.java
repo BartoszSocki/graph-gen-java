@@ -109,4 +109,11 @@ public class HelloController {
         System.out.println("SAVE BUTTON PRESSED!");
 
     }
+
+    @FXML
+    public void clear_graph_button_pressed(ActionEvent e)
+    {
+        System.out.println("CLEAR BUTTON PRESSED!");
+
+    }
 }

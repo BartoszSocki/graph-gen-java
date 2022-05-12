@@ -15,7 +15,7 @@ public class HelloApplication extends Application {
         Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), screenBounds.getWidth()/1.5, screenBounds.getHeight()/1.5);
+        Scene scene = new Scene(fxmlLoader.load(), screenBounds.getWidth()/2, screenBounds.getHeight()/2);
         stage.setTitle("Graphalgo-gui");
         stage.setScene(scene);
         stage.show();
