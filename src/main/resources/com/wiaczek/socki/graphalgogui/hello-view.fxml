@@ -5,109 +5,160 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
-
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
 <GridPane fx:id="grid" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.wiaczek.socki.graphalgogui.HelloController">
-<!--  <columnConstraints>-->
-<!--    <ColumnConstraints hgrow="SOMETIMES" percentWidth="75.0" />-->
-<!--    <ColumnConstraints hgrow="SOMETIMES" percentWidth="25.0" />-->
-<!--  </columnConstraints>-->
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" percentWidth="75.0" />
+    <ColumnConstraints hgrow="SOMETIMES" percentWidth="25.0" />
+  </columnConstraints>
   <rowConstraints>
     <RowConstraints vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Pane fx:id="graphPane" style="-fx-border-color: black;">
-         <fx:include fx:id="graph" source="graph-view.fxml"/>
+      <Pane fx:id="graphPane" style="-fx-border-color: black; -fx-border-width: 0 3 0 0;">
+         <fx:include fx:id="graph" source="graph-view.fxml" />
       </Pane>
-      <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
+      <GridPane style="-fx-padding: 15;" GridPane.columnIndex="1">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="95.5" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="200.0" minHeight="10.0" prefHeight="156.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="122.0" minHeight="10.0" prefHeight="104.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="93.0" minHeight="10.0" prefHeight="93.0" vgrow="SOMETIMES" />
+        </rowConstraints>
          <children>
-            <GridPane>
+            <GridPane style="-fx-padding: 3;">
               <columnConstraints>
-                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="50.0" />
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="50.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="33.3333" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="33.3333" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="33.3333" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#loadFromFileButtonPressed" style="-fx-alignment: center;" text="load from file" GridPane.columnIndex="1" />
-                  <Button mnemonicParsing="false" onAction="#saveButtonPressed" text="save" GridPane.columnIndex="2" />
-                  <Button mnemonicParsing="false" onAction="#clearGraphButtonPressed" text="clear" />
+                  <Button mnemonicParsing="false" onAction="#loadFromFileButtonPressed" text="load" />
+                  <Button mnemonicParsing="false" onAction="#clearGraphButtonPressed" text="clear" GridPane.columnIndex="2" />
+                  <Button mnemonicParsing="false" onAction="#saveButtonPressed" text="save" GridPane.columnIndex="1" />
                </children>
             </GridPane>
-            <GridPane alignment="CENTER" prefHeight="185.0" prefWidth="150.0" style="-fx-border-color: black;">
-              <columnConstraints>
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="35.0" />
-                <ColumnConstraints hgrow="SOMETIMES" percentWidth="65.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <Label alignment="CENTER" text="rows" GridPane.rowIndex="1" />
-                  <Label contentDisplay="CENTER" graphicTextGap="0.0" prefHeight="17.0" prefWidth="147.0" text="Generate graph" GridPane.columnSpan="2" />
-                  <Label text="cols" GridPane.rowIndex="2" />
-                  <Label text="min" GridPane.rowIndex="3" />
-                  <Label text="max" GridPane.rowIndex="4" />
-                  <Label text="seed" GridPane.rowIndex="5" />
-                  <Button mnemonicParsing="false" onAction="#graphGenButtonPressed" prefHeight="25.0" prefWidth="147.0" style="-fx-alignment: center;" text="generate" GridPane.columnSpan="2" GridPane.rowIndex="6" />
-                  <TextField fx:id="graph_gen_rows_field" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <TextField fx:id="graph_gen_cols_field" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <TextField fx:id="graph_gen_min_field" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <TextField fx:id="graph_gen_max_field" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <TextField fx:id="graph_gen_seed_field" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-               </children>
-            </GridPane>
-            <GridPane alignment="CENTER" prefHeight="102.0" prefWidth="150.0" style="-fx-border-color: black;">
+            <GridPane prefHeight="152.0" prefWidth="120.0" style="-fx-padding: 3; -fx-border-color: black; -fx-border-width: 1 1 0 1;" GridPane.rowIndex="1">
                <columnConstraints>
-                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="35.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" percentWidth="65.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                </columnConstraints>
                <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="60.5" minHeight="7.5" prefHeight="7.5" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="154.5" minHeight="10.0" prefHeight="123.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="154.5" minHeight="10.0" prefHeight="34.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Label alignment="CENTER" text="start" GridPane.rowIndex="1" />
-                  <Label text="end" GridPane.rowIndex="2" />
-                  <Button mnemonicParsing="false" onAction="#runDijkstraButtonPressed" prefHeight="0.0" prefWidth="147.0" style="-fx-alignment: center;" text="run dijkstra" GridPane.columnSpan="2" GridPane.rowIndex="3" />
-                  <TextField fx:id="dijkstra_start_field" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <TextField fx:id="dijkstra_end_field" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <Label contentDisplay="CENTER" graphicTextGap="0.0" prefHeight="17.0" prefWidth="147.0" text="dijkstra" GridPane.columnSpan="2" />
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="2.147483648E9" style="-fx-font-weight: 700;" text="Generate Graph" />
+                  <GridPane prefHeight="110.0" prefWidth="112.0" GridPane.rowIndex="1">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" percentWidth="40.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" percentWidth="60.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <TextField fx:id="graph_gen_seed_field" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="2.147483648E9" text="rows" textAlignment="RIGHT" />
+                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="2.147483648E9" text="cols" GridPane.rowIndex="1" />
+                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="2.147483648E9" text="max" GridPane.rowIndex="3" />
+                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="2.147483648E9" text="min" GridPane.rowIndex="2" />
+                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="2.147483648E9" text="seed" GridPane.rowIndex="4" />
+                        <TextField fx:id="graph_gen_rows_field" GridPane.columnIndex="1" />
+                        <TextField fx:id="graph_gen_max_field" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <TextField fx:id="graph_gen_min_field" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <TextField fx:id="graph_gen_cols_field" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                     </children>
+                  </GridPane>
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#graphGenButtonPressed" prefHeight="25.0" prefWidth="2.147483648E9" text="generate" GridPane.rowIndex="2" />
                </children>
             </GridPane>
-            <GridPane alignment="CENTER" prefHeight="82.0" prefWidth="150.0" style="-fx-border-color: black;">
+            <GridPane prefHeight="93.0" prefWidth="120.0" style="-fx-padding: 3; -fx-border-color: black; -fx-border-width: 1 1 0 1;" GridPane.rowIndex="2">
                <columnConstraints>
-                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="35.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" percentWidth="65.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                </columnConstraints>
                <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="60.5" minHeight="7.5" prefHeight="15.5" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="154.5" minHeight="10.0" prefHeight="54.5" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="154.5" minHeight="10.0" prefHeight="29.5" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Label alignment="CENTER" text="start" GridPane.rowIndex="1" />
-                  <Button mnemonicParsing="false" onAction="#runBfsButtonPressed" prefHeight="0.0" prefWidth="147.0" style="-fx-alignment: center;" text="run bfs" GridPane.columnSpan="2" GridPane.rowIndex="2" />
-                  <TextField fx:id="bfs_start_field" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Label contentDisplay="CENTER" graphicTextGap="0.0" prefHeight="17.0" prefWidth="147.0" text="bfs" GridPane.columnSpan="2" />
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="2.147483648E9" style="-fx-font-weight: 700;" text="Dijkstra" />
+                  <GridPane prefHeight="58.0" prefWidth="112.0" GridPane.rowIndex="1">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="40.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="60.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="2.147483648E9" text="start" />
+                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="2.147483648E9" text="end" GridPane.rowIndex="1" />
+                        <TextField fx:id="dijkstra_start_field" GridPane.columnIndex="1" />
+                        <TextField fx:id="dijkstra_end_field" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                     </children>
+                  </GridPane>
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#runDijkstraButtonPressed" prefHeight="25.0" prefWidth="2.147483648E9" text="run dijkstra" GridPane.rowIndex="2" />
+               </children>
+            </GridPane>
+            <GridPane prefHeight="87.0" prefWidth="120.0" style="-fx-padding: 3; -fx-border-color: black;" GridPane.rowIndex="3">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="60.5" minHeight="7.5" prefHeight="15.5" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="154.5" minHeight="10.0" prefHeight="35.5" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="154.5" minHeight="10.0" prefHeight="18.5" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="29.0" prefWidth="2.147483648E9" style="-fx-font-weight: 700;" text="BFS" />
+                  <GridPane prefHeight="58.0" prefWidth="112.0" GridPane.rowIndex="1">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="40.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="60.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="2.147483648E9" text="start" />
+                        <TextField fx:id="bfs_start_field" GridPane.columnIndex="1" />
+                     </children>
+                  </GridPane>
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#runBfsButtonPressed" prefHeight="25.0" prefWidth="2.147483648E9" text="run bfs" GridPane.rowIndex="2" />
                </children>
             </GridPane>
          </children>
-      </VBox>
+      </GridPane>
    </children>
+   <columnConstraints>
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+   </columnConstraints>
 </GridPane>
