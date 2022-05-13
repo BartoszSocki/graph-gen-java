@@ -9,7 +9,7 @@ public class GraphVertex extends Highlightable implements Drawable {
     private final GraphVertexModel model;
 
     public GraphVertex(int vertex) {
-        this(vertex, Color.ORANGE, Color.BLACK);
+        this(vertex, Color.BLUE, Color.BLACK);
     }
 
     public GraphVertex(int vertex, Color highlightColor, Color defaultColor) {

@@ -9,7 +9,6 @@ public class GraphController {
     @FXML
     Canvas canvas;
 
-
     private GraphModel graph;
     private GraphicsContext gc;
     private Clickable onVertexClick;
@@ -18,6 +17,7 @@ public class GraphController {
         double width = canvas.getWidth();
         double height = canvas.getHeight();
 
+        // setting canvas background color
         gc = canvas.getGraphicsContext2D();
         gc.clearRect(0, 0, width, height);
 

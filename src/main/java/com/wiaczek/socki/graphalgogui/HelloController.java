@@ -15,6 +15,7 @@ import javafx.scene.layout.*;
 
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class HelloController {
@@ -41,16 +42,17 @@ public class HelloController {
     private TextField dijkstraEndField;
     @FXML
     private TextField bfsStartField;
-    private Integer[] lastDijkstraPath;
+    private int[] lastDijkstraPath;
 
-    private Deque<Integer> lastSelectedVertices;
+    private final Deque<Integer> lastSelectedVertices;
 
     private boolean dijkstraUseTextInput;
 
     public HelloController() {
-        lastDijkstraPath = null;
-        dijkstraUseTextInput = true;
-        lastSelectedVertices = new LinkedList<>();
+        this.lastDijkstraPath = null;
+        this.dijkstraUseTextInput = true;
+        this.lastSelectedVertices = new LinkedList<>();
+
     }
 
     @FXML
@@ -66,6 +68,7 @@ public class HelloController {
             // cursed
             int vertex = graph.xyToIndex(y, x);
 
+            // removes all duplicates
             if (lastSelectedVertices.size() > 0 && lastSelectedVertices.contains(vertex)) {
                 lastSelectedVertices.remove(vertex);
                 graphController.drawGraph();
@@ -74,6 +77,7 @@ public class HelloController {
 
             lastSelectedVertices.add(vertex);
 
+            // remove elements when overflowing
             if (lastSelectedVertices.size() == 3) {
                 int unselected = lastSelectedVertices.removeFirst();
                 graphController.getGraphModel().getVertex(unselected).setHighlighted(false);
@@ -99,8 +103,7 @@ public class HelloController {
         graphController.getCanvas().layoutYProperty().bind(graphPane.heightProperty().subtract(side).divide(2));
     }
 
-    private void clearLastDijkstraPath()
-    {
+    private void clearLastDijkstraPath() {
         if(lastDijkstraPath == null)
             return;
 
@@ -160,7 +163,9 @@ public class HelloController {
             try{
                 clearLastDijkstraPath();
                 DijkstraResult dr = Dijkstra.dijkstra(graph, start);
-                Integer[] path = Dijkstra.getPath(dr, end).toArray(new Integer[0]);
+                int[] path = Dijkstra.getPath(dr, end).stream()
+                        .mapToInt(n -> (int)n)
+                        .toArray();
 
                 for(int i = 1 ;i < path.length;i++)
                 {

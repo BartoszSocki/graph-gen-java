@@ -28,10 +28,15 @@ public class GraphEdge extends Highlightable implements Drawable {
         double hue = 360 * ((model.getWeight() - minWeight) / (1 + maxWeight - minWeight));
         gc.setStroke(isHighlighted() ? getHighlightColor() : Color.hsb(hue, 1.0, 1.0));
 
+        // make edge start shifted, more to left or more to right
         double offestX = (side / 4) * ((model.getBegVertex() / width <= model.getEndVertex() / width) ? -1 : 1);
         double offestY = (side / 4) * ((model.getBegVertex() % width <= model.getEndVertex() % width) ? 1 : -1);
 
-        gc.setLineWidth(side / 4);
+        // for larger lines
+        gc.setLineWidth(side / 2);
+
+        // for smaller lines
+        // gc.setLineWidth(side / 4);
         gc.strokeLine(begX + offestX, begY + offestY, endX + offestX, endY + offestY);
     }
 }

@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class Graph {
     private final int rows;
     private final int cols;
-    private ArrayList<LinkedList<Edge>> edges;
+    private final ArrayList<LinkedList<Edge>> edges;
 
     public boolean isVertexOutOfBounds(int vertex) {
         return vertex < 0 && vertex >= this.rows * this.cols;
@@ -23,7 +23,7 @@ public class Graph {
 
     private void addDirectedEdge(int begVertex, int endVertex, double weight) {
         if (this.isVertexOutOfBounds(begVertex) || this.isVertexOutOfBounds(endVertex))
-            throw new IndexOutOfBoundsException("vertex out of bound");
+            throw new IllegalArgumentException("vertex out of bound");
 
         this.edges.get(begVertex).add(new Edge(endVertex, weight));
     }
@@ -41,6 +41,7 @@ public class Graph {
         Graph graph = new Graph(rows, cols);
         Random random = new Random(seed);
 
+        // create diagonal edges
         for (int i = 0; i < graph.getRows() - 1; i++) {
             for (int j = 0; j < graph.getCols(); j++) {
                 double weight = uniformRandom(random, min, max);
@@ -49,6 +50,7 @@ public class Graph {
             }
         }
 
+        // create vertical edges
         for (int i = 0; i < graph.getRows(); i++) {
             for (int j = 0; j < graph.getCols() - 1; j++) {
                 double weight = uniformRandom(random, min, max);
@@ -66,7 +68,8 @@ public class Graph {
         rows = lineScanner.nextInt();
         cols = lineScanner.nextInt();
         if (rows < 1 || cols < 1)
-            throw new Exception("rows < 1 || cols < 1"); // TODO add custom exception
+            throw new InvalidGraphFormatException("rows and cols cannot be less than 0");
+
         // go to another line
         lineScanner.nextLine();
 
