@@ -15,10 +15,8 @@ import javafx.scene.layout.*;
 
 import java.util.Deque;
 import java.util.LinkedList;
-import java.util.PriorityQueue;
-import java.util.Queue;
 
-public class HelloController {
+public class MainController {
     private Graph graph;
     @FXML
     private GraphController graphController;
@@ -48,7 +46,7 @@ public class HelloController {
 
     private boolean dijkstraUseTextInput;
 
-    public HelloController() {
+    public MainController() {
         this.lastDijkstraPath = null;
         this.dijkstraUseTextInput = true;
         this.lastSelectedVertices = new LinkedList<>();
