@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -42,7 +43,7 @@ public class HelloController {
     private TextField bfsStartField;
     private Integer[] lastDijkstraPath;
 
-    private Queue<Integer> lastSelectedVertices;
+    private Deque<Integer> lastSelectedVertices;
 
     private boolean dijkstraUseTextInput;
 
@@ -54,25 +55,28 @@ public class HelloController {
 
     @FXML
     public void initialize() {
+        // for testing purposes
         graph = Graph.generateBidirectionalFromSeed(10, 10, 0, 1, 0);
-
         graphController.loadGraph(graph);
 
         // here goes vertex click logic
         graphController.setOnClickEvent((x, y) -> {
-
             clearLastDijkstraPath();
 
-            int v = x + y * graph.getCols();
+            // cursed
+            int vertex = graph.xyToIndex(y, x);
 
-            lastSelectedVertices.add(v);
+            if (lastSelectedVertices.size() > 0 && lastSelectedVertices.contains(vertex)) {
+                lastSelectedVertices.remove(vertex);
+                graphController.drawGraph();
+                return;
+            }
 
+            lastSelectedVertices.add(vertex);
 
-            graphController.getGraphModel().getVertex(v).setHighlighted(true);
-            if(lastSelectedVertices.size() ==3)
-            {
-                int u = lastSelectedVertices.remove();
-                graphController.getGraphModel().getVertex(u).setHighlighted(false);
+            if (lastSelectedVertices.size() == 3) {
+                int unselected = lastSelectedVertices.removeFirst();
+                graphController.getGraphModel().getVertex(unselected).setHighlighted(false);
             }
 
             graphController.drawGraph();
@@ -97,23 +101,22 @@ public class HelloController {
 
     private void clearLastDijkstraPath()
     {
-        if(lastDijkstraPath != null)
-        {
-            for(int i = 1; i < lastDijkstraPath.length; i++) {
-                int u = lastDijkstraPath[i - 1];
-                int v = lastDijkstraPath[i];
-                graphController.getGraphModel().getVertex(u).setHighlighted(false);
-                graphController.getGraphModel().getVertex(v).setHighlighted(false);
-                graphController.getGraphModel().getEdge(u, v).setHighlighted(false);
-                graphController.drawGraph();
-            }
-            lastDijkstraPath = null;
+        if(lastDijkstraPath == null)
+            return;
+
+        for(int i = 1; i < lastDijkstraPath.length; i++) {
+            int u = lastDijkstraPath[i - 1];
+            int v = lastDijkstraPath[i];
+            graphController.getGraphModel().getVertex(u).setHighlighted(false);
+            graphController.getGraphModel().getVertex(v).setHighlighted(false);
+            graphController.getGraphModel().getEdge(u, v).setHighlighted(false);
         }
+        graphController.drawGraph();
+        lastDijkstraPath = null;
     }
 
     @FXML
-    public void dijkstraTextInputChecked(ActionEvent e)
-    {
+    public void dijkstraTextInputChecked(ActionEvent e) {
         dijkstraUseTextInput = !dijkstraUseTextInput;
 
         dijkstraStartField.setEditable(dijkstraUseTextInput);
@@ -132,9 +135,8 @@ public class HelloController {
     public void runDijkstraButtonPressed(ActionEvent e) {
         clearLastDijkstraPath();
 
-        int start, end;
-        start =-1;
-        end = -1;
+        int start = -1;
+        int end = -1;
 
         if(!dijkstraUseTextInput && lastSelectedVertices.size() == 2)
         {
@@ -153,35 +155,29 @@ public class HelloController {
         runDijkstra(start, end);
     }
 
-    private void runDijkstra(int start, int end)
-    {
-        (new Thread()
-        {
-            @Override
-            public void run()
-            {
-                try{
+    private void runDijkstra(int start, int end) {
+        (new Thread(() -> {
+            try{
+                clearLastDijkstraPath();
+                DijkstraResult dr = Dijkstra.dijkstra(graph, start);
+                Integer[] path = Dijkstra.getPath(dr, end).toArray(new Integer[0]);
 
-                    DijkstraResult dr = Dijkstra.dijkstra(graph, start);
-                    Integer[] path = Dijkstra.getPath(dr, end).toArray(new Integer[0]);
-
-                    for(int i = 1 ;i < path.length;i++)
-                    {
-                        int u = path[i-1];
-                        int v = path[i];
-                        graphController.getGraphModel().getVertex(u).setHighlighted(true);
-                        graphController.getGraphModel().getVertex(v).setHighlighted(true);
-                        graphController.getGraphModel().getEdge(u,v).setHighlighted(true);
-                        graphController.drawGraph();
-                    }
-                    lastDijkstraPath = path;
-                }
-                catch(Exception e)
+                for(int i = 1 ;i < path.length;i++)
                 {
-
+                    int u = path[i-1];
+                    int v = path[i];
+                    graphController.getGraphModel().getVertex(u).setHighlighted(true);
+                    graphController.getGraphModel().getVertex(v).setHighlighted(true);
+                    graphController.getGraphModel().getEdge(u,v).setHighlighted(true);
                 }
+                graphController.drawGraph();
+                lastDijkstraPath = path;
             }
-        }).start();
+            catch(Exception e)
+            {
+
+            }
+        })).start();
     }
 
     @FXML
@@ -190,23 +186,16 @@ public class HelloController {
             int start;
 
             start = Integer.parseInt(bfsStartField.getText());
-            (new Thread()
-            {
-                @Override
-                public void run()
-                {
-                    try{
+            (new Thread(() -> {
+                try{
 
-                        BFSResult br = BFS.bfs(graph, start);
-                    }
-                    catch(Exception e)
-                    {
-
-                    }
+                    BFSResult br = BFS.bfs(graph, start);
                 }
-            }).start();
+                catch(Exception e1)
+                {
 
-
+                }
+            })).start();
         }
         catch (Exception nfe) {
             createAlertWindow("BFS", "Wrong input!");
