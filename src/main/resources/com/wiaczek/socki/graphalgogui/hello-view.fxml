@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -51,13 +52,24 @@
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                </columnConstraints>
                <rowConstraints>
-                  <RowConstraints maxHeight="60.5" minHeight="7.5" prefHeight="7.5" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="154.5" minHeight="10.0" prefHeight="123.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="67.5" minHeight="7.5" prefHeight="26.5" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="154.5" minHeight="10.0" prefHeight="97.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="154.5" minHeight="10.0" prefHeight="34.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="2.147483648E9" style="-fx-font-weight: 700;" text="Generate Graph" />
-                  <GridPane prefHeight="110.0" prefWidth="112.0" GridPane.rowIndex="1">
+                  <GridPane>
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="2.147483648E9" style="-fx-font-weight: 700;" text="Generate Graph" />
+                     </children>
+                  </GridPane>
+                  <GridPane prefHeight="89.0" prefWidth="112.0" GridPane.rowIndex="1">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" percentWidth="40.0" />
                       <ColumnConstraints hgrow="SOMETIMES" percentWidth="60.0" />
@@ -70,16 +82,16 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <TextField fx:id="graph_gen_seed_field" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <TextField fx:id="graphGenSeedField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                         <Label alignment="CENTER" prefHeight="17.0" prefWidth="2.147483648E9" text="rows" textAlignment="RIGHT" />
                         <Label alignment="CENTER" prefHeight="17.0" prefWidth="2.147483648E9" text="cols" GridPane.rowIndex="1" />
+                         <Label alignment="CENTER" prefHeight="17.0" prefWidth="2.147483648E9" text="min" GridPane.rowIndex="2" />
                         <Label alignment="CENTER" prefHeight="17.0" prefWidth="2.147483648E9" text="max" GridPane.rowIndex="3" />
-                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="2.147483648E9" text="min" GridPane.rowIndex="2" />
                         <Label alignment="CENTER" prefHeight="17.0" prefWidth="2.147483648E9" text="seed" GridPane.rowIndex="4" />
-                        <TextField fx:id="graph_gen_rows_field" GridPane.columnIndex="1" />
-                        <TextField fx:id="graph_gen_max_field" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <TextField fx:id="graph_gen_min_field" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <TextField fx:id="graph_gen_cols_field" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="graphGenRowsField" GridPane.columnIndex="1" />
+                         <TextField fx:id="graphGenColsField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                         <TextField fx:id="graphGenMinField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <TextField fx:id="graphGenMaxField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                      </children>
                   </GridPane>
                   <Button alignment="CENTER" mnemonicParsing="false" onAction="#graphGenButtonPressed" prefHeight="25.0" prefWidth="2.147483648E9" text="generate" GridPane.rowIndex="2" />
@@ -95,7 +107,19 @@
                   <RowConstraints maxHeight="154.5" minHeight="10.0" prefHeight="29.5" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="2.147483648E9" style="-fx-font-weight: 700;" text="Dijkstra" />
+                  <GridPane>
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <CheckBox mnemonicParsing="false" onAction="#dijkstraTextInputChecked" selected="true" text="text input" GridPane.columnIndex="1" />
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="2.147483648E9" style="-fx-font-weight: 700;" text="Dijkstra" />
+                     </children>
+                  </GridPane>
                   <GridPane prefHeight="58.0" prefWidth="112.0" GridPane.rowIndex="1">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" percentWidth="40.0" />
@@ -108,8 +132,8 @@
                      <children>
                         <Label alignment="CENTER" prefHeight="17.0" prefWidth="2.147483648E9" text="start" />
                         <Label alignment="CENTER" prefHeight="17.0" prefWidth="2.147483648E9" text="end" GridPane.rowIndex="1" />
-                        <TextField fx:id="dijkstra_start_field" GridPane.columnIndex="1" />
-                        <TextField fx:id="dijkstra_end_field" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="dijkstraStartField" GridPane.columnIndex="1" />
+                        <TextField fx:id="dijkstraEndField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
                   <Button alignment="CENTER" mnemonicParsing="false" onAction="#runDijkstraButtonPressed" prefHeight="25.0" prefWidth="2.147483648E9" text="run dijkstra" GridPane.rowIndex="2" />
@@ -125,7 +149,6 @@
                   <RowConstraints maxHeight="154.5" minHeight="10.0" prefHeight="18.5" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="29.0" prefWidth="2.147483648E9" style="-fx-font-weight: 700;" text="BFS" />
                   <GridPane prefHeight="58.0" prefWidth="112.0" GridPane.rowIndex="1">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" percentWidth="40.0" />
@@ -136,16 +159,31 @@
                      </rowConstraints>
                      <children>
                         <Label alignment="CENTER" prefHeight="17.0" prefWidth="2.147483648E9" text="start" />
-                        <TextField fx:id="bfs_start_field" GridPane.columnIndex="1" />
+                        <TextField fx:id="bfsStartField" GridPane.columnIndex="1" />
                      </children>
                   </GridPane>
                   <Button alignment="CENTER" mnemonicParsing="false" onAction="#runBfsButtonPressed" prefHeight="25.0" prefWidth="2.147483648E9" text="run bfs" GridPane.rowIndex="2" />
+                  <GridPane>
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <CheckBox mnemonicParsing="false" selected="true" text="text input" GridPane.columnIndex="1" />
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="2.147483648E9" style="-fx-font-weight: 700;" text="BFS" />
+                     </children>
+                  </GridPane>
                </children>
             </GridPane>
          </children>
       </GridPane>
    </children>
    <columnConstraints>
+      <ColumnConstraints />
+      <ColumnConstraints />
       <ColumnConstraints />
       <ColumnConstraints />
       <ColumnConstraints />
