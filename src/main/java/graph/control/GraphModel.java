@@ -3,6 +3,7 @@ package graph.control;
 import graph.Graph;
 import graph.control.edge.GraphEdge;
 import graph.control.vertex.GraphVertex;
+import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,7 +11,7 @@ import java.util.HashMap;
 
 public class GraphModel {
     private final ArrayList<GraphVertex> vertices;
-    private final HashMap<Long, GraphEdge> edges;
+    private final HashMap<Pair<Integer, Integer>, GraphEdge> edges;
     private final int width;
     private final int height;
     private final int size;
@@ -22,7 +23,7 @@ public class GraphModel {
         this.height = graph.getRows();
         this.size = this.width * this.height;
         this.vertices = new ArrayList<>(Collections.nCopies(this.size, null));
-        this.edges = new HashMap<>();
+        this.edges = new HashMap<>(size);
 
         double tempMin = Double.POSITIVE_INFINITY;
         double tempMax = Double.NEGATIVE_INFINITY;
@@ -55,13 +56,13 @@ public class GraphModel {
     }
 
     public void addEdge(int begVertex, int endVertex, double weight) {
-        long key = pairMap(begVertex, endVertex);
+        Pair<Integer, Integer> key = new Pair<>(begVertex, endVertex);
         if (edges.containsKey(key)) return;
         edges.put(key, new GraphEdge(begVertex, endVertex, weight));
     }
 
     public GraphEdge getEdge(int begVertex, int endVertex) {
-        long key = pairMap(begVertex, endVertex);
+        Pair<Integer, Integer> key = new Pair<>(begVertex, endVertex);
         return edges.get(key);
     }
 
@@ -69,7 +70,7 @@ public class GraphModel {
         return vertices;
     }
 
-    public HashMap<Long, GraphEdge> getEdges() {
+    public HashMap<Pair<Integer, Integer>, GraphEdge> getEdges() {
         return edges;
     }
 
@@ -83,12 +84,6 @@ public class GraphModel {
 
     public int getSize() {
         return size;
-    }
-
-    // maps two ints to one long, useful when dealing with HashMap
-    private long pairMap(int a, int b) {
-        long value = (long)(0.5 * (a + b + 1) * (a + b + 2));
-        return value + Math.min(a, b);
     }
 
     public double getMin() {

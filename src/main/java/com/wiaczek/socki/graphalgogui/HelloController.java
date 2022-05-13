@@ -35,15 +35,13 @@ public class HelloController {
 
     @FXML
     public void initialize() {
-//        Graph graph = null;
-//        try {
-//            graph = Graph.readFromFile("src/main/resources/example_graph.txt");
-//        } catch (Exception e) {
-//            System.out.println(e);
-//        }
+        Graph graph = Graph.generateBidirectionalFromSeed(10, 10, 0, 1, 0);
 
-        Graph graph = Graph.generateBidirectionalFromSeed(5, 5, 0, 1, 0);
         graphController.loadGraph(graph);
+//        graphController.loadDijkstraPath(path);
+        graphController.setOnClickEvent((x, y) -> {
+            System.out.println(x + " " + y);
+        });
 
         ColumnConstraints col1 = new ColumnConstraints();
         ColumnConstraints col2 = new ColumnConstraints(200);
@@ -52,8 +50,8 @@ public class HelloController {
         grid.setGridLinesVisible(true);
         grid.getColumnConstraints().addAll(col1, col2);
 
-        DoubleBinding side = (DoubleBinding) Bindings.min(graphPane.widthProperty(), graphPane.heightProperty());
         // make canvas square
+        DoubleBinding side = (DoubleBinding) Bindings.min(graphPane.widthProperty(), graphPane.heightProperty());
         graphController.getCanvas().widthProperty().bind(side);
         graphController.getCanvas().heightProperty().bind(side);
 
@@ -63,8 +61,7 @@ public class HelloController {
     }
 
     @FXML
-    public void runDijkstraButtonPressed(ActionEvent e)
-    {
+    public void runDijkstraButtonPressed(ActionEvent e) {
         try{
             int start, end;
 
@@ -82,8 +79,7 @@ public class HelloController {
         }
     }
     @FXML
-    public void runBfsButtonPressed(ActionEvent e)
-    {
+    public void runBfsButtonPressed(ActionEvent e) {
         try{
             int start;
 
@@ -99,8 +95,7 @@ public class HelloController {
         }
     }
     @FXML
-    public void graphGenButtonPressed(ActionEvent e)
-    {
+    public void graphGenButtonPressed(ActionEvent e) {
         try{
             int rows, cols;
             double min, max;
@@ -126,8 +121,7 @@ public class HelloController {
         }
     }
 
-    private void createAlertWindow(String title, String msg)
-    {
+    private void createAlertWindow(String title, String msg) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Graphalgo - error");
         alert.setHeaderText(title);
@@ -147,8 +141,7 @@ public class HelloController {
     }
 
     @FXML
-    public void clearGraphButtonPressed(ActionEvent e)
-    {
+    public void clearGraphButtonPressed(ActionEvent e) {
         System.out.println("CLEAR BUTTON PRESSED!");
 
     }

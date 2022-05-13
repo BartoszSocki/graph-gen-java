@@ -11,6 +11,7 @@ public class GraphController {
 
     private GraphModel graph;
     private GraphicsContext gc;
+    private Clickable onVertexClick;
 
     void draw() {
         double width = canvas.getWidth();
@@ -27,6 +28,10 @@ public class GraphController {
             throw new NullPointerException("graph is null");
         this.graph = new GraphModel(graph);
         drawGraph();
+    }
+
+    public void setOnClickEvent(Clickable onClick) {
+        this.onVertexClick = onClick;
     }
 
     @FXML
@@ -55,15 +60,17 @@ public class GraphController {
             boolean isVerticallyInside = top <= event.getY() && event.getY() <= bottom;
             boolean isInside = isHorizontallyInside && isVerticallyInside;
 
-            if (isInside) {
-                int index = y * graph.getWidth() + x;
-                if (graph.getVertex(index) == null) return;
-                System.out.println(index);
-                System.out.println(graph.getVertex(index));
+            if (!isInside)
+                return;
 
-                graph.getVertex(index).toggleHighlight();
-                graph.getVertex(index).draw(gc, dx, dy, graph.getWidth(), graph.getHeight(), side, graph.getMin(), graph.getMax());
-            }
+            int index = y * graph.getWidth() + x;
+            if (graph.getVertex(index) == null)
+                return;
+
+            graph.getVertex(index).toggleHighlight();
+            graph.getVertex(index).draw(gc, dx, dy, graph.getWidth(), graph.getHeight(), side, graph.getMin(), graph.getMax());
+
+            this.onVertexClick.click(x, y);
         });
     }
 
