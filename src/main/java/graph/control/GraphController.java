@@ -1,5 +1,6 @@
 package graph.control;
 
+import graph.Clickable;
 import graph.Graph;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
