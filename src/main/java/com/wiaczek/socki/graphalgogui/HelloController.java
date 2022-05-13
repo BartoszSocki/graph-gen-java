@@ -1,13 +1,20 @@
 package com.wiaczek.socki.graphalgogui;
 
+import graph.control.GraphController;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.DoubleBinding;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.*;
 
 public class HelloController {
-
+    @FXML
+    private GraphController graphController;
+    @FXML
+    private Pane graphPane;
+    @FXML
+    private GridPane grid;
     @FXML
     private TextField graph_gen_rows_field;
     @FXML
@@ -18,14 +25,32 @@ public class HelloController {
     private TextField graph_gen_max_field;
     @FXML
     private TextField graph_gen_seed_field;
-
     @FXML
     private TextField dijkstra_start_field;
     @FXML
     private TextField dijkstra_end_field;
-
     @FXML
     private TextField bfs_start_field;
+
+    @FXML
+    public void initialize() {
+        ColumnConstraints col1 = new ColumnConstraints();
+        ColumnConstraints col2 = new ColumnConstraints(200);
+        col1.setHgrow(Priority.ALWAYS);
+
+        grid.setGridLinesVisible(true);
+        grid.getColumnConstraints().addAll(col1, col2);
+
+        DoubleBinding side = (DoubleBinding) Bindings.min(graphPane.widthProperty(), graphPane.heightProperty());
+        // make canvas square
+        graphController.getCanvas().widthProperty().bind(side);
+        graphController.getCanvas().heightProperty().bind(side);
+
+        // center canvas inside pane
+        graphController.getCanvas().layoutXProperty().bind(graphPane.widthProperty().subtract(side).divide(2));
+        graphController.getCanvas().layoutYProperty().bind(graphPane.heightProperty().subtract(side).divide(2));
+    }
+
     @FXML
     public void run_dijkstra_button_pressed(ActionEvent e)
     {
