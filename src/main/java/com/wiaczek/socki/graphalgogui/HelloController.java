@@ -52,7 +52,7 @@ public class HelloController {
     }
 
     @FXML
-    public void run_dijkstra_button_pressed(ActionEvent e)
+    public void runDijkstraButtonPressed(ActionEvent e)
     {
         try{
             int start, end;
@@ -67,11 +67,11 @@ public class HelloController {
         }
         catch (Exception nfe)
         {
-            create_alert_window("Dijkstra:", "Wrong input! (" + nfe.getMessage() + ")");
+            createAlertWindow("Dijkstra:", "Wrong input! (" + nfe.getMessage() + ")");
         }
     }
     @FXML
-    public void run_bfs_button_pressed(ActionEvent e)
+    public void runBfsButtonPressed(ActionEvent e)
     {
         try{
             int start;
@@ -84,11 +84,11 @@ public class HelloController {
         }
         catch (Exception nfe)
         {
-            create_alert_window("BFS:", "Wrong input! (" + nfe.getMessage() + ")");
+            createAlertWindow("BFS:", "Wrong input! (" + nfe.getMessage() + ")");
         }
     }
     @FXML
-    public void graph_gen_button_pressed(ActionEvent e)
+    public void graphGenButtonPressed(ActionEvent e)
     {
         try{
             int rows, cols;
@@ -111,11 +111,11 @@ public class HelloController {
         }
         catch (Exception nfe)
         {
-            create_alert_window("Generate graph:", "Wrong input! (" + nfe.getMessage() + ")");
+            createAlertWindow("Generate graph:", "Wrong input! (" + nfe.getMessage() + ")");
         }
     }
 
-    private void create_alert_window(String title, String msg)
+    private void createAlertWindow(String title, String msg)
     {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Graphalgo - error");
@@ -125,18 +125,18 @@ public class HelloController {
     }
 
     @FXML
-    public void load_from_file_button_pressed(ActionEvent e) {
+    public void loadFromFileButtonPressed(ActionEvent e) {
         System.out.println("LOAD FROM FILE!");
     }
 
     @FXML
-    public void save_button_pressed(ActionEvent e) {
+    public void saveButtonPressed(ActionEvent e) {
         System.out.println("SAVE BUTTON PRESSED!");
 
     }
 
     @FXML
-    public void clear_graph_button_pressed(ActionEvent e)
+    public void clearGraphButtonPressed(ActionEvent e)
     {
         System.out.println("CLEAR BUTTON PRESSED!");
 

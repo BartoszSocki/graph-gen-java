@@ -36,9 +36,9 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#load_from_file_button_pressed" style="-fx-alignment: center;" text="load from file" GridPane.columnIndex="1" />
-                  <Button mnemonicParsing="false" onAction="#save_button_pressed" text="save" GridPane.columnIndex="2" />
-                  <Button mnemonicParsing="false" onAction="#clear_graph_button_pressed" text="clear" />
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#loadFromFileButtonPressed" style="-fx-alignment: center;" text="load from file" GridPane.columnIndex="1" />
+                  <Button mnemonicParsing="false" onAction="#saveButtonPressed" text="save" GridPane.columnIndex="2" />
+                  <Button mnemonicParsing="false" onAction="#clearGraphButtonPressed" text="clear" />
                </children>
             </GridPane>
             <GridPane alignment="CENTER" prefHeight="185.0" prefWidth="150.0" style="-fx-border-color: black;">
@@ -62,7 +62,7 @@
                   <Label text="min" GridPane.rowIndex="3" />
                   <Label text="max" GridPane.rowIndex="4" />
                   <Label text="seed" GridPane.rowIndex="5" />
-                  <Button mnemonicParsing="false" onAction="#graph_gen_button_pressed" prefHeight="25.0" prefWidth="147.0" style="-fx-alignment: center;" text="generate" GridPane.columnSpan="2" GridPane.rowIndex="6" />
+                  <Button mnemonicParsing="false" onAction="#graphGenButtonPressed" prefHeight="25.0" prefWidth="147.0" style="-fx-alignment: center;" text="generate" GridPane.columnSpan="2" GridPane.rowIndex="6" />
                   <TextField fx:id="graph_gen_rows_field" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <TextField fx:id="graph_gen_cols_field" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <TextField fx:id="graph_gen_min_field" GridPane.columnIndex="1" GridPane.rowIndex="3" />
@@ -84,7 +84,7 @@
                <children>
                   <Label alignment="CENTER" text="start" GridPane.rowIndex="1" />
                   <Label text="end" GridPane.rowIndex="2" />
-                  <Button mnemonicParsing="false" onAction="#run_dijkstra_button_pressed" prefHeight="0.0" prefWidth="147.0" style="-fx-alignment: center;" text="run dijkstra" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+                  <Button mnemonicParsing="false" onAction="#runDijkstraButtonPressed" prefHeight="0.0" prefWidth="147.0" style="-fx-alignment: center;" text="run dijkstra" GridPane.columnSpan="2" GridPane.rowIndex="3" />
                   <TextField fx:id="dijkstra_start_field" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <TextField fx:id="dijkstra_end_field" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Label contentDisplay="CENTER" graphicTextGap="0.0" prefHeight="17.0" prefWidth="147.0" text="dijkstra" GridPane.columnSpan="2" />
@@ -102,7 +102,7 @@
                </rowConstraints>
                <children>
                   <Label alignment="CENTER" text="start" GridPane.rowIndex="1" />
-                  <Button mnemonicParsing="false" onAction="#run_bfs_button_pressed" prefHeight="0.0" prefWidth="147.0" style="-fx-alignment: center;" text="run bfs" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+                  <Button mnemonicParsing="false" onAction="#runBfsButtonPressed" prefHeight="0.0" prefWidth="147.0" style="-fx-alignment: center;" text="run bfs" GridPane.columnSpan="2" GridPane.rowIndex="2" />
                   <TextField fx:id="bfs_start_field" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Label contentDisplay="CENTER" graphicTextGap="0.0" prefHeight="17.0" prefWidth="147.0" text="bfs" GridPane.columnSpan="2" />
                </children>
