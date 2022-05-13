@@ -38,7 +38,8 @@ public class HelloController {
         Graph graph = Graph.generateBidirectionalFromSeed(10, 10, 0, 1, 0);
 
         graphController.loadGraph(graph);
-//        graphController.loadDijkstraPath(path);
+
+        // here goes vertex click logic
         graphController.setOnClickEvent((x, y) -> {
             System.out.println(x + " " + y);
         });
@@ -73,8 +74,7 @@ public class HelloController {
             System.out.println(end);
 
         }
-        catch (Exception nfe)
-        {
+        catch (Exception nfe) {
             createAlertWindow("Dijkstra:", "Wrong input! (" + nfe.getMessage() + ")");
         }
     }
@@ -89,8 +89,7 @@ public class HelloController {
             System.out.println(start);
 
         }
-        catch (Exception nfe)
-        {
+        catch (Exception nfe) {
             createAlertWindow("BFS:", "Wrong input! (" + nfe.getMessage() + ")");
         }
     }
@@ -115,8 +114,7 @@ public class HelloController {
             System.out.println(max);
             System.out.println(seed);
         }
-        catch (Exception nfe)
-        {
+        catch (Exception nfe) {
             createAlertWindow("Generate graph:", "Wrong input! (" + nfe.getMessage() + ")");
         }
     }
