@@ -10,4 +10,9 @@ public class GraphVertexModel {
     public int getVertex() {
         return vertex;
     }
+
+    @Override
+    public String toString() {
+        return Integer.toString(vertex);
+    }
 }

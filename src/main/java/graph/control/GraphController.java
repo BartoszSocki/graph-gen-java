@@ -1,10 +1,9 @@
 package graph.control;
 
+import graph.Graph;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-
-import java.util.List;
 
 public class GraphController {
     @FXML
@@ -12,6 +11,7 @@ public class GraphController {
 
     private GraphModel graph;
     private GraphicsContext gc;
+    private Clickable onVertexClick;
 
     void draw() {
         double width = canvas.getWidth();
@@ -23,23 +23,26 @@ public class GraphController {
         drawGraph();
     }
 
+    public void loadGraph(Graph graph) {
+        if (graph == null)
+            throw new NullPointerException("graph is null");
+        this.graph = new GraphModel(graph);
+        drawGraph();
+    }
+
+    public void setOnClickEvent(Clickable onClick) {
+        this.onVertexClick = onClick;
+    }
+
     @FXML
     public void initialize() {
-        graph = new GraphModel(50, 100);
         gc = canvas.getGraphicsContext2D();
 
-        for (int i = 0; i < graph.getSize(); i++) {
-            graph.addVertex(i);
-//            graph.addEdge(0, i);
-        }
-
-        drawGraph();
-
-        // those lines make canvas responsive
+        // canvas resizing
         canvas.widthProperty().addListener(evt -> draw());
         canvas.heightProperty().addListener(evt -> draw());
 
-        // for vertices
+        // click event for vertices
         canvas.setOnMouseClicked(event -> {
             double dx = canvas.getWidth() / graph.getWidth();
             double dy = canvas.getHeight() / graph.getHeight();
@@ -57,25 +60,32 @@ public class GraphController {
             boolean isVerticallyInside = top <= event.getY() && event.getY() <= bottom;
             boolean isInside = isHorizontallyInside && isVerticallyInside;
 
-            if (isInside) {
-                int index = y * graph.getWidth() + x;
-                graph.getVertices().get(index).toggleHighlight();
-                graph.getVertices().get(index).draw(gc, dx, dy, graph.getWidth(), graph.getHeight(), side);
-            }
+            if (!isInside)
+                return;
+
+            int index = y * graph.getWidth() + x;
+            if (graph.getVertex(index) == null)
+                return;
+
+            graph.getVertex(index).toggleHighlight();
+            graph.getVertex(index).draw(gc, dx, dy, graph.getWidth(), graph.getHeight(), side, graph.getMin(), graph.getMax());
+
+            this.onVertexClick.click(x, y);
         });
     }
 
-    private void drawDrawable(List<? extends Drawable> drawable) {
+    private void drawDrawable(Iterable<? extends Drawable> drawable) {
         double dx = canvas.getWidth() / graph.getWidth();
         double dy = canvas.getHeight() / graph.getHeight();
         double side = Math.min(dx, dy) / 2;
 
         for (var shape : drawable)
-            shape.draw(gc, dx, dy, graph.getWidth(), graph.getHeight(), side);
+            if (shape != null)
+                shape.draw(gc, dx, dy, graph.getWidth(), graph.getHeight(), side, graph.getMin(), graph.getMax());
     }
 
     public void drawGraph() {
-        drawDrawable(graph.getEdges());
+        drawDrawable(graph.getEdges().values());
         drawDrawable(graph.getVertices());
     }
 
