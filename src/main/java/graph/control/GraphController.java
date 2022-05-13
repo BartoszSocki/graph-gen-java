@@ -9,6 +9,7 @@ public class GraphController {
     @FXML
     Canvas canvas;
 
+
     private GraphModel graph;
     private GraphicsContext gc;
     private Clickable onVertexClick;
@@ -21,6 +22,12 @@ public class GraphController {
         gc.clearRect(0, 0, width, height);
 
         drawGraph();
+    }
+
+    public void clearCanvas()
+    {
+        gc = canvas.getGraphicsContext2D();
+        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }
 
     public void loadGraph(Graph graph) {
@@ -89,6 +96,9 @@ public class GraphController {
         drawDrawable(graph.getVertices());
     }
 
+    public GraphModel getGraphModel() {
+        return graph;
+    }
     public Canvas getCanvas() {
         return canvas;
     }

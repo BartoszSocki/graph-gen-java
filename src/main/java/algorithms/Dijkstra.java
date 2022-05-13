@@ -3,7 +3,10 @@ package algorithms;
 import graph.Edge;
 import graph.Graph;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicReferenceArray;
 
 public class Dijkstra {
 
@@ -49,4 +52,17 @@ public class Dijkstra {
         return new DijkstraResult(pred, dist, source);
     }
 
+    public static List<Integer> getPath(DijkstraResult dr, int dest) {
+        if (dr.getDist()[dest] == -1)
+            return null;
+        List<Integer> nodes = new ArrayList<>();
+        int j = dest;
+        do {
+            nodes.add(j);
+            j = dr.getPred()[j];
+        }
+        while (j != -1);
+
+        return nodes;
+    }
 }
