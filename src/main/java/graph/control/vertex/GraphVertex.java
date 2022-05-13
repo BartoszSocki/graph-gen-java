@@ -25,4 +25,9 @@ public class GraphVertex extends Highlightable implements Drawable {
         gc.setFill(this.getColor());
         gc.fillRect(recX, recY, side, side);
     }
+
+    @Override
+    public String toString() {
+        return "GraphVertex{" + model + '}';
+    }
 }

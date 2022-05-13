@@ -66,7 +66,7 @@ public class Graph {
         rows = lineScanner.nextInt();
         cols = lineScanner.nextInt();
         if (rows < 1 || cols < 1)
-            throw new Exception(); // TODO add custom exception
+            throw new Exception("rows < 1 || cols < 1"); // TODO add custom exception
         // go to another line
         lineScanner.nextLine();
 
@@ -91,7 +91,7 @@ public class Graph {
 
         // check if there are extra tokens at the end of file
         if (begVertex + 1 != rows * cols || lineScanner.hasNext())
-            throw new Exception();
+            throw new Exception("extra values at the end of file");
 
         lineScanner.close();
         return graph;

@@ -1,5 +1,6 @@
 package com.wiaczek.socki.graphalgogui;
 
+import graph.Graph;
 import graph.control.GraphController;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
@@ -34,6 +35,15 @@ public class HelloController {
 
     @FXML
     public void initialize() {
+        Graph graph = null;
+        try {
+            graph = Graph.readFromFile("src/main/resources/example_graph.txt");
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        graphController.loadGraph(graph);
+
         ColumnConstraints col1 = new ColumnConstraints();
         ColumnConstraints col2 = new ColumnConstraints(200);
         col1.setHgrow(Priority.ALWAYS);
