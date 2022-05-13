@@ -14,32 +14,39 @@ public class GraphModel {
     private final int width;
     private final int height;
     private final int size;
+    private final double min;
+    private final double max;
 
     public GraphModel(Graph graph) {
-        this(graph.getCols(), graph.getRows());
+        this.width = graph.getCols();
+        this.height = graph.getRows();
+        this.size = this.width * this.height;
+        this.vertices = new ArrayList<>(Collections.nCopies(this.size, null));
+        this.edges = new HashMap<>();
+
+        double tempMin = Double.POSITIVE_INFINITY;
+        double tempMax = Double.NEGATIVE_INFINITY;
+
         for (int i = 0; i < graph.getEdges().size(); i++) {
-//            if (graph.getEdges().get(i).size() != 0)
-//                addVertex(i);
+            if (graph.getEdges().get(i).size() != 0)
+                addVertex(i);
 
             for (var edge : graph.getEdges().get(i)) {
-                addEdge(i, edge.getEndVertex());
+                addEdge(i, edge.getEndVertex(), edge.getWeight());
+
+                tempMin = Math.min(tempMin, edge.getWeight());
+                tempMax = Math.max(tempMax, edge.getWeight());
 
                 if (getVertex(edge.getEndVertex()) == null)
                     addVertex(edge.getEndVertex());
             }
         }
-    }
-
-    public GraphModel(int width, int height) {
-        this.width = width;
-        this.height = height;
-        this.size = width * height;
-
-        this.vertices = new ArrayList<>(Collections.nCopies(this.size, null));
-        this.edges = new HashMap<>();
+        this.min = tempMin;
+        this.max = tempMax;
     }
 
     public void addVertex(int vertex) {
+        if (vertices.get(vertex) != null) return;
         vertices.set(vertex, new GraphVertex(vertex));
     }
 
@@ -47,11 +54,10 @@ public class GraphModel {
         return vertices.get(vertex);
     }
 
-    public void addEdge(int begVertex, int endVertex) {
+    public void addEdge(int begVertex, int endVertex, double weight) {
         long key = pairMap(begVertex, endVertex);
-        if (edges.containsKey(key))
-            return;
-        edges.put(key, new GraphEdge(begVertex, endVertex));
+        if (edges.containsKey(key)) return;
+        edges.put(key, new GraphEdge(begVertex, endVertex, weight));
     }
 
     public GraphEdge getEdge(int begVertex, int endVertex) {
@@ -83,5 +89,13 @@ public class GraphModel {
     private long pairMap(int a, int b) {
         long value = (long)(0.5 * (a + b + 1) * (a + b + 2));
         return value + Math.min(a, b);
+    }
+
+    public double getMin() {
+        return min;
+    }
+
+    public double getMax() {
+        return max;
     }
 }

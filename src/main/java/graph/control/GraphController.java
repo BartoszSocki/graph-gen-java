@@ -62,7 +62,7 @@ public class GraphController {
                 System.out.println(graph.getVertex(index));
 
                 graph.getVertex(index).toggleHighlight();
-                graph.getVertex(index).draw(gc, dx, dy, graph.getWidth(), graph.getHeight(), side);
+                graph.getVertex(index).draw(gc, dx, dy, graph.getWidth(), graph.getHeight(), side, graph.getMin(), graph.getMax());
             }
         });
     }
@@ -74,7 +74,7 @@ public class GraphController {
 
         for (var shape : drawable)
             if (shape != null)
-                shape.draw(gc, dx, dy, graph.getWidth(), graph.getHeight(), side);
+                shape.draw(gc, dx, dy, graph.getWidth(), graph.getHeight(), side, graph.getMin(), graph.getMax());
     }
 
     public void drawGraph() {

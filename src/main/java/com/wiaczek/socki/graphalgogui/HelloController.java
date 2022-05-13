@@ -35,13 +35,14 @@ public class HelloController {
 
     @FXML
     public void initialize() {
-        Graph graph = null;
-        try {
-            graph = Graph.readFromFile("src/main/resources/example_graph.txt");
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+//        Graph graph = null;
+//        try {
+//            graph = Graph.readFromFile("src/main/resources/example_graph.txt");
+//        } catch (Exception e) {
+//            System.out.println(e);
+//        }
 
+        Graph graph = Graph.generateBidirectionalFromSeed(5, 5, 0, 1, 0);
         graphController.loadGraph(graph);
 
         ColumnConstraints col1 = new ColumnConstraints();

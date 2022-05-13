@@ -89,9 +89,9 @@ public class Graph {
             scanner.close();
         }
 
-        // check if there are extra tokens at the end of file
-        if (begVertex + 1 != rows * cols || lineScanner.hasNext())
-            throw new Exception("extra values at the end of file");
+//        // check if there are extra tokens at the end of file
+//        if (begVertex + 1 != rows * cols || lineScanner.hasNext())
+//            throw new Exception("extra values at the end of file");
 
         lineScanner.close();
         return graph;
