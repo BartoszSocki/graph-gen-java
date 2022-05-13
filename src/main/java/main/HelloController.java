@@ -1,4 +1,4 @@
-package com.wiaczek.socki.graphalgogui;
+package main;
 
 import algorithms.BFS;
 import algorithms.BFSResult;

@@ -1,4 +1,4 @@
-module com.example.graphalgogui {
+module main {
     requires javafx.controls;
     requires javafx.fxml;
 
@@ -6,6 +6,8 @@ module com.example.graphalgogui {
     exports graph.control;
     opens graph.control to javafx.fxml;
 
-    opens com.wiaczek.socki.graphalgogui to javafx.fxml;
-    exports com.wiaczek.socki.graphalgogui;
+    exports graph;
+
+    opens main to javafx.fxml;
+    exports main;
 }
