@@ -1,5 +1,6 @@
 package com.wiaczek.socki.graphalgogui;
 
+import graph.Graph;
 import graph.control.GraphController;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
@@ -34,6 +35,15 @@ public class HelloController {
 
     @FXML
     public void initialize() {
+        Graph graph = Graph.generateBidirectionalFromSeed(10, 10, 0, 1, 0);
+
+        graphController.loadGraph(graph);
+
+        // here goes vertex click logic
+        graphController.setOnClickEvent((x, y) -> {
+            System.out.println(x + " " + y);
+        });
+
         ColumnConstraints col1 = new ColumnConstraints();
         ColumnConstraints col2 = new ColumnConstraints(200);
         col1.setHgrow(Priority.ALWAYS);
@@ -41,8 +51,8 @@ public class HelloController {
         grid.setGridLinesVisible(true);
         grid.getColumnConstraints().addAll(col1, col2);
 
-        DoubleBinding side = (DoubleBinding) Bindings.min(graphPane.widthProperty(), graphPane.heightProperty());
         // make canvas square
+        DoubleBinding side = (DoubleBinding) Bindings.min(graphPane.widthProperty(), graphPane.heightProperty());
         graphController.getCanvas().widthProperty().bind(side);
         graphController.getCanvas().heightProperty().bind(side);
 
@@ -52,8 +62,7 @@ public class HelloController {
     }
 
     @FXML
-    public void runDijkstraButtonPressed(ActionEvent e)
-    {
+    public void runDijkstraButtonPressed(ActionEvent e) {
         try{
             int start, end;
 
@@ -65,14 +74,12 @@ public class HelloController {
             System.out.println(end);
 
         }
-        catch (Exception nfe)
-        {
+        catch (Exception nfe) {
             createAlertWindow("Dijkstra:", "Wrong input! (" + nfe.getMessage() + ")");
         }
     }
     @FXML
-    public void runBfsButtonPressed(ActionEvent e)
-    {
+    public void runBfsButtonPressed(ActionEvent e) {
         try{
             int start;
 
@@ -82,14 +89,12 @@ public class HelloController {
             System.out.println(start);
 
         }
-        catch (Exception nfe)
-        {
+        catch (Exception nfe) {
             createAlertWindow("BFS:", "Wrong input! (" + nfe.getMessage() + ")");
         }
     }
     @FXML
-    public void graphGenButtonPressed(ActionEvent e)
-    {
+    public void graphGenButtonPressed(ActionEvent e) {
         try{
             int rows, cols;
             double min, max;
@@ -109,14 +114,12 @@ public class HelloController {
             System.out.println(max);
             System.out.println(seed);
         }
-        catch (Exception nfe)
-        {
+        catch (Exception nfe) {
             createAlertWindow("Generate graph:", "Wrong input! (" + nfe.getMessage() + ")");
         }
     }
 
-    private void createAlertWindow(String title, String msg)
-    {
+    private void createAlertWindow(String title, String msg) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Graphalgo - error");
         alert.setHeaderText(title);
@@ -136,8 +139,7 @@ public class HelloController {
     }
 
     @FXML
-    public void clearGraphButtonPressed(ActionEvent e)
-    {
+    public void clearGraphButtonPressed(ActionEvent e) {
         System.out.println("CLEAR BUTTON PRESSED!");
 
     }
