@@ -62,8 +62,8 @@ public class Graph {
         return graph;
     }
 
-    public static Graph readFromFile(String filepath) throws Exception {
-        Scanner lineScanner = new Scanner(new File(filepath));
+    public static Graph readFromFile(File file) throws Exception {
+        Scanner lineScanner = new Scanner(file);
         int rows, cols;
         rows = lineScanner.nextInt();
         cols = lineScanner.nextInt();

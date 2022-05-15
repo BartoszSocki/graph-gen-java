@@ -3,6 +3,8 @@ package graph;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class GraphTest {
@@ -17,7 +19,7 @@ class GraphTest {
     void readFromFile_thenSuccess() {
         String filepath = "src/test/resources/example_graph.txt";
         assertDoesNotThrow(() -> {
-            Graph graph = Graph.readFromFile(filepath);
+            Graph graph = Graph.readFromFile(new File(filepath));
             System.out.println(graph);
         });
     }

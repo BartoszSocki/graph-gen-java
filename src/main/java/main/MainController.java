@@ -12,7 +12,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.stage.FileChooser;
 
+import java.io.File;
 import java.util.Deque;
 import java.util.LinkedList;
 
@@ -45,11 +47,16 @@ public class MainController {
     private final Deque<Integer> lastSelectedVertices;
 
     private boolean dijkstraUseTextInput;
+    private boolean bfsUseTextInput;
+
+    private boolean bfsResultCleared;
 
     public MainController() {
         this.lastDijkstraPath = null;
         this.dijkstraUseTextInput = true;
+        this.bfsUseTextInput = true;
         this.lastSelectedVertices = new LinkedList<>();
+        this.bfsResultCleared = false;
 
     }
 
@@ -62,9 +69,11 @@ public class MainController {
         // here goes vertex click logic
         graphController.setOnClickEvent((x, y) -> {
             clearLastDijkstraPath();
+            clearBfs();
 
             // cursed
             int vertex = graph.xyToIndex(y, x);
+            graphController.getGraphModel().getVertex(vertex).setHighlighted(true);
 
             // removes all duplicates
             if (lastSelectedVertices.size() > 0 && lastSelectedVertices.contains(vertex)) {
@@ -183,27 +192,76 @@ public class MainController {
         })).start();
     }
 
+
+    @FXML
+    private void bfsTextInputChecked()
+    {
+        clearLastDijkstraPath();
+        clearBfs();
+
+        bfsUseTextInput = !bfsUseTextInput;
+        bfsStartField.setVisible(bfsUseTextInput);
+        bfsStartField.setEditable(bfsUseTextInput);
+    }
+
+
+    private void clearBfs()
+    {
+        if(bfsResultCleared==true)
+            return;
+
+        for(int i =0; i < graph.getRows() * graph.getCols(); i++)
+        {
+            graphController.getGraphModel().getVertex(i).setHighlighted(false);
+        }
+        graphController.drawGraph();
+
+        bfsResultCleared = true;
+    }
+
+
     @FXML
     public void runBfsButtonPressed(ActionEvent e) {
         try{
-            int start;
+            int start = -1;
 
-            start = Integer.parseInt(bfsStartField.getText());
-            (new Thread(() -> {
-                try{
+            if(!bfsUseTextInput && lastSelectedVertices.size() > 0)
+            {
+                start = lastSelectedVertices.remove();
+            }
+            else if(bfsStartField.getText().length() != 0)
+            {
+                start = Integer.parseInt(bfsStartField.getText());
+            }
+            else
+            {
+                createAlertWindow("BFS","Wrong input!");
+            }
 
-                    BFSResult br = BFS.bfs(graph, start);
-                }
-                catch(Exception e1)
-                {
-
-                }
-            })).start();
+            runBfs(start);
         }
         catch (Exception nfe) {
             createAlertWindow("BFS", "Wrong input!");
         }
     }
+
+
+    private void runBfs(int start)
+    {
+        new Thread(()->{
+            clearBfs();
+            clearLastDijkstraPath();
+
+            BFSResult br = BFS.bfs(graph, start);
+            for(int i =0; i< graph.getCols() * graph.getRows();i++)
+            {
+                graphController.getGraphModel().getVertex(i).setHighlighted(true);
+            }
+            graphController.drawGraph();
+            bfsResultCleared = false;
+        }).start();
+    }
+
     @FXML
     public void graphGenButtonPressed(ActionEvent e) {
         try{
@@ -223,6 +281,7 @@ public class MainController {
 
             graph = Graph.generateBidirectionalFromSeed(rows,cols,min,max,seed);
             graphController.loadGraph(graph);
+            graphController.drawGraph();
         }
         catch (Exception nfe) {
             createAlertWindow("Generate graph", "Wrong input!");
@@ -239,17 +298,57 @@ public class MainController {
 
     @FXML
     public void loadFromFileButtonPressed(ActionEvent e) {
+        FileChooser fc = new FileChooser();
+        fc.setInitialDirectory(new File(System.getProperty("user.dir")));
+        File f = fc.showOpenDialog(null);
 
+        try{
+            if(f != null)
+            {
+                graphController.clearCanvas();
+                lastDijkstraPath = null;
+                bfsResultCleared = false;
+                graph = Graph.readFromFile(f);
+                graphController.loadGraph(graph);
+                graphController.drawGraph();
+            }
+            else
+            {
+
+            }
+        }
+        catch(Exception exe)
+        {
+
+        }
     }
 
     @FXML
     public void saveButtonPressed(ActionEvent e) {
+        FileChooser fc = new FileChooser();
+        fc.setInitialDirectory(new File(System.getProperty("user.dir")));
+        File f = fc.showSaveDialog(null);
 
+        try{
+            if(f != null)
+            {
+                Graph.writeToFile(graph, f.getPath());
+            }
+            else
+            {
+
+            }
+        }
+        catch(Exception exe)
+        {
+
+        }
     }
 
     @FXML
     public void clearGraphButtonPressed(ActionEvent e) {
         graphController.clearCanvas();
         lastDijkstraPath = null;
+        bfsResultCleared = false;
     }
 }

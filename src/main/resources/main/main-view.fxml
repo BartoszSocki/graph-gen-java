@@ -168,7 +168,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <CheckBox mnemonicParsing="false" selected="true" text="text input" GridPane.columnIndex="1" />
+                        <CheckBox mnemonicParsing="false" onAction="#bfsTextInputChecked" selected="true" text="text input" GridPane.columnIndex="1" />
                         <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="2.147483648E9" style="-fx-font-weight: 700;" text="BFS" />
                      </children>
                   </GridPane>
