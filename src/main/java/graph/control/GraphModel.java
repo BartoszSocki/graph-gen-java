@@ -2,7 +2,7 @@ package graph.control;
 
 import graph.Graph;
 import graph.control.edge.EdgeController;
-import graph.control.vertex.GraphVertex;
+import graph.control.vertex.VertexController;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.HashMap;
 
 public class GraphModel {
-    private final ArrayList<GraphVertex> vertices;
+    private final ArrayList<VertexController> vertices;
     private final HashMap<Pair<Integer, Integer>, EdgeController> edges;
     private final int width;
     private final int height;
@@ -48,10 +48,10 @@ public class GraphModel {
 
     public void addVertex(int vertex) {
         if (vertices.get(vertex) != null) return;
-        vertices.set(vertex, new GraphVertex(vertex));
+        vertices.set(vertex, new VertexController(vertex));
     }
 
-    public GraphVertex getVertex(int vertex) {
+    public VertexController getVertex(int vertex) {
         return vertices.get(vertex);
     }
 
@@ -66,7 +66,7 @@ public class GraphModel {
         return edges.get(key);
     }
 
-    public ArrayList<GraphVertex> getVertices() {
+    public ArrayList<VertexController> getVertices() {
         return vertices;
     }
 

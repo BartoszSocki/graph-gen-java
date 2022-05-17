@@ -1,7 +1,6 @@
 package graph;
 
 public record Edge(int begVertex, int endVertex, double weight) {
-
     public int getBegVertex() {
         return begVertex;
     }
@@ -13,7 +12,5 @@ public record Edge(int begVertex, int endVertex, double weight) {
     }
 
     @Override
-    public String toString() {
-        return endVertex + " :" + weight;
-    }
+    public String toString() { return endVertex + " :" + weight; }
 }
