@@ -1,20 +1,21 @@
 package graph.control.edge;
 
+import graph.Edge;
 import graph.control.Drawable;
 import graph.control.Highlightable;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class GraphEdge extends Highlightable implements Drawable {
-    private final GraphEdgeModel model;
+public class EdgeController extends Highlightable implements Drawable {
+    private final Edge model;
 
-    public GraphEdge(int begVertex, int endVertex, double weight) {
+    public EdgeController(int begVertex, int endVertex, double weight) {
         this(begVertex, endVertex, weight, Color.BLUE, Color.RED);
     }
 
-    public GraphEdge(int begVertex, int endVertex, double weight, Color highlightColor, Color defaultColor) {
+    public EdgeController(int begVertex, int endVertex, double weight, Color highlightColor, Color defaultColor) {
         super(highlightColor, defaultColor);
-        this.model = new GraphEdgeModel(begVertex, endVertex, weight);
+        this.model = new Edge(begVertex, endVertex, weight);
     }
 
     @Override
@@ -29,14 +30,14 @@ public class GraphEdge extends Highlightable implements Drawable {
         gc.setStroke(isHighlighted() ? getHighlightColor() : Color.hsb(hue, 1.0, 1.0));
 
         // make edge start shifted, more to left or more to right
-        double offestX = (side / 4) * ((model.getBegVertex() / width <= model.getEndVertex() / width) ? -1 : 1);
-        double offestY = (side / 4) * ((model.getBegVertex() % width <= model.getEndVertex() % width) ? 1 : -1);
+        double offsetX = (side / 4) * ((model.getBegVertex() / width <= model.getEndVertex() / width) ? -1 : 1);
+        double offsetY = (side / 4) * ((model.getBegVertex() % width <= model.getEndVertex() % width) ? 1 : -1);
 
         // for larger lines
 //        gc.setLineWidth(side / 2);
 
         // for smaller lines
          gc.setLineWidth(side / 4);
-         gc.strokeLine(begX + offestX, begY + offestY, endX + offestX, endY + offestY);
+         gc.strokeLine(begX + offsetX, begY + offsetY, endX + offsetX, endY + offsetY);
     }
 }

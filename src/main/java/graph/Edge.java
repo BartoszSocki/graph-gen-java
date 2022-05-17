@@ -1,20 +1,13 @@
 package graph;
 
-import java.util.Locale;
+public record Edge(int begVertex, int endVertex, double weight) {
 
-public class Edge {
-    private int endVertex;
-    private double weight;
-
-    public Edge(int endVertex, double weight) {
-        this.endVertex = endVertex;
-        this.weight = weight;
+    public int getBegVertex() {
+        return begVertex;
     }
-
     public int getEndVertex() {
         return endVertex;
     }
-
     public double getWeight() {
         return weight;
     }

@@ -150,17 +150,15 @@ public class MainController {
         int start = -1;
         int end = -1;
 
-        if(!dijkstraUseTextInput && lastSelectedVertices.size() == 2)
-        {
+        if(!dijkstraUseTextInput && lastSelectedVertices.size() == 2) {
             start = lastSelectedVertices.remove();
             end = lastSelectedVertices.remove();
         }
-        else if(dijkstraStartField.getText().length() != 0 && dijkstraEndField.getText().length()!= 0)
-        {
+        else if(dijkstraStartField.getText().length() != 0 && dijkstraEndField.getText().length()!= 0) {
             start = Integer.parseInt(dijkstraStartField.getText());
             end = Integer.parseInt(dijkstraEndField.getText());
         }
-        else{
+        else {
             createAlertWindow("Dijkstra", "Wrong input!");
         }
 
@@ -168,30 +166,27 @@ public class MainController {
     }
 
     private void runDijkstra(int start, int end) {
-        (new Thread(() -> {
-            try{
-                clearLastDijkstraPath();
-                DijkstraResult dr = Dijkstra.dijkstra(graph, start);
-                int[] path = Dijkstra.getPath(dr, end).stream()
-                        .mapToInt(n -> (int)n)
-                        .toArray();
+        try {
+            clearLastDijkstraPath();
+            DijkstraResult dr = Dijkstra.dijkstra(graph, start);
+            int[] path = Dijkstra.getPath(dr, end).stream()
+                    .mapToInt(n -> n)
+                    .toArray();
 
-                for(int i = 1 ;i < path.length;i++)
-                {
-                    int u = path[i-1];
-                    int v = path[i];
-                    graphController.getGraphModel().getVertex(u).setHighlighted(true);
-                    graphController.getGraphModel().getVertex(v).setHighlighted(true);
-                    graphController.getGraphModel().getEdge(u,v).setHighlighted(true);
-                }
-                graphController.drawGraph();
-                lastDijkstraPath = path;
+            for(int i = 1 ;i < path.length;i++) {
+                int u = path[i-1];
+                int v = path[i];
+                graphController.getGraphModel().getVertex(u).setHighlighted(true);
+                graphController.getGraphModel().getVertex(v).setHighlighted(true);
+                graphController.getGraphModel().getEdge(u,v).setHighlighted(true);
             }
-            catch(Exception e)
-            {
+            graphController.drawGraph();
+            lastDijkstraPath = path;
+        }
+        catch(Exception e)
+        {
 
-            }
-        })).start();
+        }
     }
 
 

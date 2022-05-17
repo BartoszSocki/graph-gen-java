@@ -25,7 +25,7 @@ public class Graph {
         if (this.isVertexOutOfBounds(begVertex) || this.isVertexOutOfBounds(endVertex))
             throw new IllegalArgumentException("vertex out of bound");
 
-        this.edges.get(begVertex).add(new Edge(endVertex, weight));
+        this.edges.get(begVertex).add(new Edge(begVertex, endVertex, weight));
     }
 
     public int xyToIndex(int row, int col) {
