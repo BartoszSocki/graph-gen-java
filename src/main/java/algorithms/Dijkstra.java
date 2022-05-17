@@ -33,8 +33,8 @@ public class Dijkstra {
 
             for(Edge e : g.getEdges().get(u.getId()))
             {
-                int v = e.getEndVertex();
-                double w = e.getWeight();
+                int v = e.endVertex();
+                double w = e.weight();
 
                 if(q.isInTheQueue(v))
                 {

@@ -9,13 +9,13 @@ import javafx.scene.paint.Color;
 public class VertexController extends Highlightable implements Drawable {
     private final Vertex model;
 
-    public VertexController(int vertex) {
+    public VertexController(Vertex vertex) {
         this(vertex, Color.BLUE, Color.BLACK);
     }
 
-    public VertexController(int vertex, Color highlightColor, Color defaultColor) {
+    public VertexController(Vertex vertex, Color highlightColor, Color defaultColor) {
         super(highlightColor, defaultColor);
-        this.model = new Vertex(vertex);
+        this.model = vertex;
     }
 
     @Override
@@ -29,6 +29,6 @@ public class VertexController extends Highlightable implements Drawable {
 
     @Override
     public String toString() {
-        return "GraphVertex{" + model + '}';
+        return "Vertex{" + model + '}';
     }
 }

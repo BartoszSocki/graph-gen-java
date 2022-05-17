@@ -24,8 +24,7 @@ public class GraphController {
         drawGraph();
     }
 
-    public void clearCanvas()
-    {
+    public void clearCanvas() {
         gc = canvas.getGraphicsContext2D();
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }

@@ -1,6 +1,8 @@
 package graph.control;
 
+import graph.Edge;
 import graph.Graph;
+import graph.Vertex;
 import graph.control.edge.EdgeController;
 import graph.control.vertex.VertexController;
 import javafx.util.Pair;
@@ -14,51 +16,47 @@ public class GraphModel {
     private final HashMap<Pair<Integer, Integer>, EdgeController> edges;
     private final int width;
     private final int height;
-    private final int size;
     private final double min;
     private final double max;
 
     public GraphModel(Graph graph) {
         this.width = graph.getCols();
         this.height = graph.getRows();
-        this.size = this.width * this.height;
-        this.vertices = new ArrayList<>(Collections.nCopies(this.size, null));
+        int size = this.width * this.height;
+        this.vertices = new ArrayList<>(Collections.nCopies(size, null));
         this.edges = new HashMap<>(size);
 
         double tempMin = Double.POSITIVE_INFINITY;
         double tempMax = Double.NEGATIVE_INFINITY;
 
-        for (int i = 0; i < graph.getEdges().size(); i++) {
-            if (graph.getEdges().get(i).size() != 0)
-                addVertex(i);
+        for (var vertex : graph.getVertices())
+            addVertex(vertex);
 
-            for (var edge : graph.getEdges().get(i)) {
-                addEdge(i, edge.getEndVertex(), edge.getWeight());
+        for (var edgesFromVertex : graph.getEdges()) {
+            for (var edge : edgesFromVertex) {
+                addEdge(edge);
 
-                tempMin = Math.min(tempMin, edge.getWeight());
-                tempMax = Math.max(tempMax, edge.getWeight());
-
-                if (getVertex(edge.getEndVertex()) == null)
-                    addVertex(edge.getEndVertex());
+                tempMin = Math.min(tempMin, edge.weight());
+                tempMax = Math.max(tempMax, edge.weight());
             }
         }
         this.min = tempMin;
         this.max = tempMax;
     }
 
-    public void addVertex(int vertex) {
-        if (vertices.get(vertex) != null) return;
-        vertices.set(vertex, new VertexController(vertex));
+    public void addVertex(Vertex vertex) {
+        if (vertices.get(vertex.getVertex()) != null) return;
+        vertices.set(vertex.getVertex(), new VertexController(vertex));
     }
 
     public VertexController getVertex(int vertex) {
         return vertices.get(vertex);
     }
 
-    public void addEdge(int begVertex, int endVertex, double weight) {
-        Pair<Integer, Integer> key = new Pair<>(begVertex, endVertex);
+    private void addEdge(Edge edge) {
+        Pair<Integer, Integer> key = new Pair<>(edge.begVertex(), edge.endVertex());
         if (edges.containsKey(key)) return;
-        edges.put(key, new EdgeController(begVertex, endVertex, weight));
+        edges.put(key, new EdgeController(edge));
     }
 
     public EdgeController getEdge(int begVertex, int endVertex) {
@@ -80,10 +78,6 @@ public class GraphModel {
 
     public int getHeight() {
         return height;
-    }
-
-    public int getSize() {
-        return size;
     }
 
     public double getMin() {

@@ -9,29 +9,29 @@ import javafx.scene.paint.Color;
 public class EdgeController extends Highlightable implements Drawable {
     private final Edge model;
 
-    public EdgeController(int begVertex, int endVertex, double weight) {
-        this(begVertex, endVertex, weight, Color.BLUE, Color.RED);
+    public EdgeController(Edge edge) {
+        this(edge, Color.BLUE, Color.RED);
     }
 
-    public EdgeController(int begVertex, int endVertex, double weight, Color highlightColor, Color defaultColor) {
+    public EdgeController(Edge edge, Color highlightColor, Color defaultColor) {
         super(highlightColor, defaultColor);
-        this.model = new Edge(begVertex, endVertex, weight);
+        this.model = edge;
     }
 
     @Override
     public void draw(GraphicsContext gc, double dx, double dy, int width, int height, double side, double minWeight, double maxWeight) {
-        double begX = (model.getBegVertex() % width) * dx + (dx) / 2;
-        double begY = (model.getBegVertex() / width) * dy + (dy) / 2;
+        double begX = (model.begVertex() % width) * dx + (dx) / 2;
+        double begY = (model.begVertex() / width) * dy + (dy) / 2;
 
-        double endX = (model.getEndVertex() % width) * dx + (dx) / 2;
-        double endY = (model.getEndVertex() / width) * dy + (dy) / 2;
+        double endX = (model.endVertex() % width) * dx + (dx) / 2;
+        double endY = (model.endVertex() / width) * dy + (dy) / 2;
 
-        double hue = 360 * ((model.getWeight() - minWeight) / (1 + maxWeight - minWeight));
+        double hue = 360 * ((model.weight() - minWeight) / (1 + maxWeight - minWeight));
         gc.setStroke(isHighlighted() ? getHighlightColor() : Color.hsb(hue, 1.0, 1.0));
 
         // make edge start shifted, more to left or more to right
-        double offsetX = (side / 4) * ((model.getBegVertex() / width <= model.getEndVertex() / width) ? -1 : 1);
-        double offsetY = (side / 4) * ((model.getBegVertex() % width <= model.getEndVertex() % width) ? 1 : -1);
+        double offsetX = (side / 4) * ((model.begVertex() / width <= model.endVertex() / width) ? -1 : 1);
+        double offsetY = (side / 4) * ((model.begVertex() % width <= model.endVertex() % width) ? 1 : -1);
 
         // for larger lines
 //        gc.setLineWidth(side / 2);
