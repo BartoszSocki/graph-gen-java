@@ -13,19 +13,12 @@ public class GraphController {
     private GraphicsContext gc;
     private Clickable onVertexClick;
 
-    void draw() {
-        double width = canvas.getWidth();
-        double height = canvas.getHeight();
-
-        // setting canvas background color
-        gc = canvas.getGraphicsContext2D();
-        gc.clearRect(0, 0, width, height);
-
+    public void draw() {
+        clearCanvas();
         drawGraph();
     }
 
     public void clearCanvas() {
-        gc = canvas.getGraphicsContext2D();
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }
 
@@ -50,6 +43,7 @@ public class GraphController {
 
         // click event for vertices
         canvas.setOnMouseClicked(event -> {
+            // this whole section checks if user clicked on vertex or not
             double dx = canvas.getWidth() / graph.getWidth();
             double dy = canvas.getHeight() / graph.getHeight();
             double side = Math.min(dx, dy) / 2;

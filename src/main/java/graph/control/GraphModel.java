@@ -22,15 +22,14 @@ public class GraphModel {
     public GraphModel(Graph graph) {
         this.width = graph.getCols();
         this.height = graph.getRows();
-        int size = this.width * this.height;
-        this.vertices = new ArrayList<>(Collections.nCopies(size, null));
-        this.edges = new HashMap<>(size);
-
-        double tempMin = Double.POSITIVE_INFINITY;
-        double tempMax = Double.NEGATIVE_INFINITY;
+        this.vertices = new ArrayList<>(Collections.nCopies(width * height, null));
+        this.edges = new HashMap<>(width * height);
 
         for (var vertex : graph.getVertices())
             addVertex(vertex);
+
+        double tempMin = Double.POSITIVE_INFINITY;
+        double tempMax = Double.NEGATIVE_INFINITY;
 
         for (var edgesFromVertex : graph.getEdges()) {
             for (var edge : edgesFromVertex) {
