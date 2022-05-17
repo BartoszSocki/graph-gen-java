@@ -78,9 +78,11 @@ public class MainController {
             // removes all duplicates
             if (lastSelectedVertices.size() > 0 && lastSelectedVertices.contains(vertex)) {
                 lastSelectedVertices.remove(vertex);
+                graphController.getGraphModel().getVertex(vertex).setHighlighted(false);
                 graphController.drawGraph();
                 return;
             }
+            System.out.println("1: " + lastSelectedVertices);
 
             lastSelectedVertices.add(vertex);
 

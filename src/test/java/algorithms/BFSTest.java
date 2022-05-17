@@ -3,6 +3,7 @@ package algorithms;
 import graph.Graph;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,7 +23,7 @@ class BFSTest {
         Graph graph = null;
 
         try {
-            graph = Graph.readFromFile(filepath);
+            graph = Graph.readFromFile(new File(filepath));
         } catch (Exception e) {
             // 😎
         }

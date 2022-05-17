@@ -33,10 +33,10 @@ public class GraphEdge extends Highlightable implements Drawable {
         double offestY = (side / 4) * ((model.getBegVertex() % width <= model.getEndVertex() % width) ? 1 : -1);
 
         // for larger lines
-        gc.setLineWidth(side / 2);
+//        gc.setLineWidth(side / 2);
 
         // for smaller lines
-        // gc.setLineWidth(side / 4);
-        gc.strokeLine(begX + offestX, begY + offestY, endX + offestX, endY + offestY);
+         gc.setLineWidth(side / 4);
+         gc.strokeLine(begX + offestX, begY + offestY, endX + offestX, endY + offestY);
     }
 }
