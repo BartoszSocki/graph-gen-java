@@ -111,7 +111,7 @@ public class MainController {
         graphController.getCanvas().layoutYProperty().bind(graphPane.heightProperty().subtract(side).divide(2));
     }
 
-    private void clearLastDijkstraPath() {
+    private synchronized void clearLastDijkstraPath() {
         if(lastDijkstraPath == null)
             return;
 
@@ -144,7 +144,6 @@ public class MainController {
 
     @FXML
     public void runDijkstraButtonPressed(ActionEvent e) {
-        clearLastDijkstraPath();
 
         int start = -1;
         int end = -1;
@@ -165,27 +164,26 @@ public class MainController {
     }
 
     private void runDijkstra(int start, int end) {
-        try {
-            clearLastDijkstraPath();
-            DijkstraResult dr = Dijkstra.dijkstra(graph, start);
-            int[] path = Dijkstra.getPath(dr, end).stream()
-                    .mapToInt(n -> n)
-                    .toArray();
+        new Thread(() -> {
+            try {
+                clearLastDijkstraPath();
+                DijkstraResult dr = Dijkstra.dijkstra(graph, start);
+                int[] path = Dijkstra.getPath(dr, end).stream()
+                        .mapToInt(n -> n)
+                        .toArray();
 
-            for(int i = 1 ; i < path.length; i++) {
-                int u = path[i-1];
-                int v = path[i];
-                graphController.getGraphModel().getVertex(u).setHighlighted(true);
-                graphController.getGraphModel().getVertex(v).setHighlighted(true);
-                graphController.getGraphModel().getEdge(u,v).setHighlighted(true);
+                for (int i = 1; i < path.length; i++) {
+                    int u = path[i - 1];
+                    int v = path[i];
+                    graphController.getGraphModel().getVertex(u).setHighlighted(true);
+                    graphController.getGraphModel().getVertex(v).setHighlighted(true);
+                    graphController.getGraphModel().getEdge(u, v).setHighlighted(true);
+                }
+                graphController.drawGraph();
+                lastDijkstraPath = path;
+            } catch (Exception e) {
             }
-            graphController.drawGraph();
-            lastDijkstraPath = path;
-        }
-        catch(Exception e)
-        {
-
-        }
+        }).start();
     }
 
 
@@ -201,7 +199,7 @@ public class MainController {
     }
 
 
-    private void clearBfs()
+    private synchronized void clearBfs()
     {
         if(bfsResultCleared==true)
             return;
@@ -291,17 +289,17 @@ public class MainController {
 
     @FXML
     public void loadFromFileButtonPressed(ActionEvent e) {
-        FileChooser fc = new FileChooser();
-        fc.setInitialDirectory(new File(System.getProperty("user.dir")));
-        File f = fc.showOpenDialog(null);
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
+        File fileToOpen = fileChooser.showOpenDialog(null);
 
         try{
-            if(f != null)
+            if(fileToOpen != null)
             {
                 graphController.clearCanvas();
                 lastDijkstraPath = null;
                 bfsResultCleared = false;
-                graph = Graph.readFromFile(f);
+                graph = Graph.readFromFile(fileToOpen);
                 graphController.loadGraph(graph);
                 graphController.drawGraph();
             }
