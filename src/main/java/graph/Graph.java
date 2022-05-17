@@ -3,29 +3,33 @@ package graph;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class Graph {
     private final int rows;
     private final int cols;
     private final ArrayList<LinkedList<Edge>> edges;
+    private final ArrayList<Vertex> vertices;
 
-    public boolean isVertexOutOfBounds(int vertex) {
-        return vertex < 0 && vertex >= this.rows * this.cols;
-    }
-
-    private static double uniformRandom(Random random, double min, double max) {
-        return (random.nextDouble() * (max - min)) + min;
+    private Graph(int rows, int cols) {
+        this.rows = rows;
+        this.cols = cols;
+        int size = rows * cols;
+        this.edges = new ArrayList<>(size);
+        this.vertices = new ArrayList<>(size);
+        for (int i = 0; i < size; i++)
+            edges.add(i, new LinkedList<>());
+        for (int i = 0; i < size; i++)
+            vertices.add(i, null);
     }
 
     private void addDirectedEdge(int begVertex, int endVertex, double weight) {
         if (this.isVertexOutOfBounds(begVertex) || this.isVertexOutOfBounds(endVertex))
             throw new IllegalArgumentException("vertex out of bound");
 
-        this.edges.get(begVertex).add(new Edge(endVertex, weight));
+        this.edges.get(begVertex).add(new Edge(begVertex, endVertex, weight));
+        this.vertices.set(begVertex, new Vertex(begVertex));
+        this.vertices.set(endVertex, new Vertex(endVertex));
     }
 
     public int xyToIndex(int row, int col) {
@@ -106,15 +110,6 @@ public class Graph {
         writer.close();
     }
 
-    private Graph(int rows, int cols) {
-        this.rows = rows;
-        this.cols = cols;
-        this.edges = new ArrayList<>(rows * cols);
-        for (int i = 0; i < rows * cols; i++) {
-            this.edges.add(i, new LinkedList<>());
-        }
-    }
-
     public int getRows() {
         return rows;
     }
@@ -125,6 +120,18 @@ public class Graph {
 
     public ArrayList<LinkedList<Edge>> getEdges() {
         return edges;
+    }
+
+    public ArrayList<Vertex> getVertices() {
+        return vertices;
+    }
+
+    public boolean isVertexOutOfBounds(int vertex) {
+        return vertex < 0 && vertex >= this.rows * this.cols;
+    }
+
+    private static double uniformRandom(Random random, double min, double max) {
+        return (random.nextDouble() * (max - min)) + min;
     }
 
     @Override

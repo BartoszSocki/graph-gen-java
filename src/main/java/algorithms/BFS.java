@@ -20,11 +20,11 @@ public class BFS {
             int currIndex = result.getVertices()[begIndex++];
             var edges = graph.getEdges().get(currIndex);
             for (var edge : edges) {
-                if (result.getVisited()[edge.getEndVertex()])
+                if (result.getVisited()[edge.endVertex()])
                     continue;
-                result.getVertices()[endIndex] = edge.getEndVertex();
+                result.getVertices()[endIndex] = edge.endVertex();
                 result.getDistance()[endIndex] = result.getDistance()[begIndex - 1] + 1;
-                result.getVisited()[edge.getEndVertex()] = true;
+                result.getVisited()[edge.endVertex()] = true;
                 endIndex++;
             }
         }

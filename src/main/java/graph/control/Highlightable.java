@@ -4,13 +4,21 @@ import javafx.scene.paint.Color;
 
 public abstract class Highlightable {
     private boolean isHighlighted;
-    private final Color highlightColor;
-    private final Color defaultColor;
+    private Color highlightColor;
+    private Color defaultColor;
 
     protected Highlightable(Color highlightColor, Color defaultColor) {
         this.highlightColor = highlightColor;
         this.defaultColor = defaultColor;
         this.isHighlighted = false;
+    }
+
+    public void setHighlightColor(Color highlightColor) {
+        this.highlightColor = highlightColor;
+    }
+
+    public void setDefaultColor(Color defaultColor) {
+        this.defaultColor = defaultColor;
     }
 
     public boolean isHighlighted() {
