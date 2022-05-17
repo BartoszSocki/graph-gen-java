@@ -57,7 +57,6 @@ public class MainController {
         this.bfsUseTextInput = true;
         this.lastSelectedVertices = new LinkedList<>();
         this.bfsResultCleared = false;
-
     }
 
     @FXML
@@ -173,7 +172,7 @@ public class MainController {
                     .mapToInt(n -> n)
                     .toArray();
 
-            for(int i = 1 ;i < path.length;i++) {
+            for(int i = 1 ; i < path.length; i++) {
                 int u = path[i-1];
                 int v = path[i];
                 graphController.getGraphModel().getVertex(u).setHighlighted(true);
@@ -243,20 +242,17 @@ public class MainController {
     }
 
 
-    private void runBfs(int start)
-    {
-        new Thread(()->{
-            clearBfs();
-            clearLastDijkstraPath();
+    private void runBfs(int start) {
+        clearBfs();
+        clearLastDijkstraPath();
 
-            BFSResult br = BFS.bfs(graph, start);
-            for(int i =0; i< graph.getCols() * graph.getRows();i++)
-            {
-                graphController.getGraphModel().getVertex(i).setHighlighted(true);
-            }
-            graphController.drawGraph();
-            bfsResultCleared = false;
-        }).start();
+        BFSResult br = BFS.bfs(graph, start);
+        for(int i =0; i< graph.getCols() * graph.getRows();i++)
+        {
+            graphController.getGraphModel().getVertex(i).setHighlighted(true);
+        }
+        graphController.drawGraph();
+        bfsResultCleared = false;
     }
 
     @FXML
