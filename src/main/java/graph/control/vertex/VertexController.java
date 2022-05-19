@@ -23,7 +23,7 @@ public class VertexController extends Highlightable implements Drawable {
         double recX = (this.model.getVertex() % width) * dx + (dx - side) / 2;
         double recY = (this.model.getVertex() / width) * dy + (dy - side) / 2;
 
-        gc.setFill(this.getColor());
+        gc.setFill(this.getCurrentColor());
         gc.fillRect(recX, recY, side, side);
     }
 

@@ -12,7 +12,6 @@ import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.Deque;
 import java.util.LinkedList;
 
@@ -40,21 +39,16 @@ public class MainController {
     private TextField dijkstraEndField;
     @FXML
     private TextField bfsStartField;
-    private int[] lastDijkstraPath;
 
     private final Deque<Integer> lastSelectedVertices;
 
     private boolean dijkstraUseTextInput;
     private boolean bfsUseTextInput;
 
-    private boolean bfsResultCleared;
-
     public MainController() {
-        this.lastDijkstraPath = null;
         this.dijkstraUseTextInput = true;
         this.bfsUseTextInput = true;
         this.lastSelectedVertices = new LinkedList<>();
-        this.bfsResultCleared = false;
     }
 
     // this is not optimal but simple
