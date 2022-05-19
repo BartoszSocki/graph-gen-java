@@ -10,6 +10,7 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 
 public class Dijkstra {
 
+    // TODO: wywal ten custom exception
     public static Path dijkstra(Graph g, int source, int dest) throws VertexPriorityQueueException {
         int n = g.getCols() * g.getRows();
         int[] pred = new int[n];

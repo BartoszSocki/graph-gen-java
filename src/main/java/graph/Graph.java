@@ -23,7 +23,7 @@ public class Graph {
             vertices.add(i, null);
     }
 
-    private void addDirectedEdge(int begVertex, int endVertex, double weight) {
+    private void addDirectedEdgeAndVertices(int begVertex, int endVertex, double weight) {
         if (this.isVertexOutOfBounds(begVertex) || this.isVertexOutOfBounds(endVertex))
             throw new IllegalArgumentException("vertex out of bound");
 
@@ -49,8 +49,8 @@ public class Graph {
         for (int i = 0; i < graph.getRows() - 1; i++) {
             for (int j = 0; j < graph.getCols(); j++) {
                 double weight = uniformRandom(random, min, max);
-                graph.addDirectedEdge(graph.xyToIndex(i, j), graph.xyToIndex(i + 1, j), weight);
-                graph.addDirectedEdge(graph.xyToIndex(i + 1, j), graph.xyToIndex(i, j), weight);
+                graph.addDirectedEdgeAndVertices(graph.xyToIndex(i, j), graph.xyToIndex(i + 1, j), weight);
+                graph.addDirectedEdgeAndVertices(graph.xyToIndex(i + 1, j), graph.xyToIndex(i, j), weight);
             }
         }
 
@@ -58,8 +58,8 @@ public class Graph {
         for (int i = 0; i < graph.getRows(); i++) {
             for (int j = 0; j < graph.getCols() - 1; j++) {
                 double weight = uniformRandom(random, min, max);
-                graph.addDirectedEdge(graph.xyToIndex(i, j), graph.xyToIndex(i, j + 1), weight);
-                graph.addDirectedEdge(graph.xyToIndex(i, j + 1), graph.xyToIndex(i, j), weight);
+                graph.addDirectedEdgeAndVertices(graph.xyToIndex(i, j), graph.xyToIndex(i, j + 1), weight);
+                graph.addDirectedEdgeAndVertices(graph.xyToIndex(i, j + 1), graph.xyToIndex(i, j), weight);
             }
         }
 
@@ -89,7 +89,7 @@ public class Graph {
                 int endVertex = scanner.nextInt();
                 // for some reason scanner.nextDouble does not work
                 double weight = Double.parseDouble(scanner.next());
-                graph.addDirectedEdge(begVertex, endVertex, weight);
+                graph.addDirectedEdgeAndVertices(begVertex, endVertex, weight);
 
             }
             begVertex++;
