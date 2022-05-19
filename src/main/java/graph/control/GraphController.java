@@ -13,12 +13,12 @@ public class GraphController {
     private GraphicsContext gc;
     private ClickConsumer onVertexClick;
 
-    public void draw() {
+    public synchronized void draw() {
         clearCanvas();
         drawGraph();
     }
 
-    public void clearCanvas() {
+    public synchronized void clearCanvas() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }
 
@@ -84,7 +84,7 @@ public class GraphController {
                 shape.draw(gc, dx, dy, graph.getWidth(), graph.getHeight(), side, graph.getMin(), graph.getMax());
     }
 
-    public void drawGraph() {
+    public synchronized void drawGraph() {
         drawDrawable(graph.getEdges().values());
         drawDrawable(graph.getVertices());
     }
