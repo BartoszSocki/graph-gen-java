@@ -1,9 +1,6 @@
 package main;
 
-import algorithms.BFS;
-import algorithms.BFSResult;
-import algorithms.Dijkstra;
-import algorithms.DijkstraResult;
+import algorithms.*;
 import graph.Graph;
 import graph.control.GraphController;
 import javafx.beans.binding.Bindings;
@@ -15,6 +12,7 @@ import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Deque;
 import java.util.LinkedList;
 
@@ -167,10 +165,8 @@ public class MainController {
         new Thread(() -> {
             try {
                 clearLastDijkstraPath();
-                DijkstraResult dr = Dijkstra.dijkstra(graph, start);
-                int[] path = Dijkstra.getPath(dr, end).stream()
-                        .mapToInt(n -> n)
-                        .toArray();
+                Path dr = Dijkstra.dijkstra(graph, start, end);
+                int[] path = dr.vertices();
 
                 for (int i = 1; i < path.length; i++) {
                     int u = path[i - 1];

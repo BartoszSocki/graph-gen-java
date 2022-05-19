@@ -17,7 +17,7 @@ public class MainApplication extends Application {
 
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("main-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), screenBounds.getWidth()/2, screenBounds.getHeight()/2);
-        double sceneMinHeight = 700;
+        double sceneMinHeight = 500;
         double sceneMinWidth = 700;
 
         stage.setTitle("Graphalgo-gui");
