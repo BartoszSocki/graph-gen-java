@@ -240,11 +240,10 @@ public class MainController {
         clearBfs();
         clearLastDijkstraPath();
 
-        BFSResult br = BFS.bfs(graph, start);
-        for(int i =0; i< graph.getCols() * graph.getRows();i++)
-        {
-            graphController.getGraphModel().getVertex(i).setHighlighted(true);
-        }
+        Path path = BFS.bfs(graph, start);
+        for (var vertex : path.vertices())
+            graphController.getGraphModel().getVertex(vertex).setHighlighted(true);
+
         graphController.drawGraph();
         bfsResultCleared = false;
     }
