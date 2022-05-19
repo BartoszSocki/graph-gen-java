@@ -79,6 +79,9 @@ public class MainController {
             if (lastSelectedVertices.size() > 0 && lastSelectedVertices.contains(vertex)) {
                 lastSelectedVertices.remove(vertex);
                 graphController.getGraphModel().getVertex(vertex).setHighlighted(false);
+                // temporary solution
+                for (var selectedVertex : lastSelectedVertices)
+                    graphController.getGraphModel().getVertex(selectedVertex).setHighlighted(true);
                 graphController.drawGraph();
                 return;
             }
@@ -91,6 +94,10 @@ public class MainController {
                 int unselected = lastSelectedVertices.removeFirst();
                 graphController.getGraphModel().getVertex(unselected).setHighlighted(false);
             }
+
+            // temporary solution
+            for (var selectedVertex : lastSelectedVertices)
+                graphController.getGraphModel().getVertex(selectedVertex).setHighlighted(true);
 
             graphController.drawGraph();
         });
