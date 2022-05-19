@@ -10,14 +10,20 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class MainApplication extends Application {
+
     @Override
     public void start(Stage stage) throws IOException {
         Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("main-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), screenBounds.getWidth()/2, screenBounds.getHeight()/2);
+        double sceneMinHeight = 700;
+        double sceneMinWidth = 700;
+
         stage.setTitle("Graphalgo-gui");
         stage.setScene(scene);
+        stage.setMinHeight(sceneMinHeight);
+        stage.setMinWidth(sceneMinWidth);
         stage.show();
     }
 
