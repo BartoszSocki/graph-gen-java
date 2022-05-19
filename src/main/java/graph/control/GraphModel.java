@@ -26,7 +26,8 @@ public class GraphModel {
         this.edges = new HashMap<>(width * height);
 
         for (var vertex : graph.getVertices())
-            addVertex(vertex);
+            if (vertex != null)
+                addVertex(vertex);
 
         double tempMin = Double.POSITIVE_INFINITY;
         double tempMax = Double.NEGATIVE_INFINITY;

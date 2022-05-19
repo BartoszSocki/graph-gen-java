@@ -4,7 +4,6 @@ import graph.Graph;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 
 public class GraphController {
     @FXML
@@ -12,14 +11,14 @@ public class GraphController {
 
     private GraphModel graph;
     private GraphicsContext gc;
-    private Clickable onVertexClick;
+    private ClickConsumer onVertexClick;
 
-    public void draw() {
+    public synchronized void draw() {
         clearCanvas();
         drawGraph();
     }
 
-    public void clearCanvas() {
+    public synchronized void clearCanvas() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }
 
@@ -30,7 +29,7 @@ public class GraphController {
         drawGraph();
     }
 
-    public void setOnClickEvent(Clickable onClick) {
+    public void setOnClickEvent(ClickConsumer onClick) {
         this.onVertexClick = onClick;
     }
 
@@ -85,7 +84,7 @@ public class GraphController {
                 shape.draw(gc, dx, dy, graph.getWidth(), graph.getHeight(), side, graph.getMin(), graph.getMax());
     }
 
-    public void drawGraph() {
+    public synchronized void drawGraph() {
         drawDrawable(graph.getEdges().values());
         drawDrawable(graph.getVertices());
     }

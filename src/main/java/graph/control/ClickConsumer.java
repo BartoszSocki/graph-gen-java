@@ -1,6 +1,6 @@
 package graph.control;
 
 @FunctionalInterface
-public interface Clickable {
+public interface ClickConsumer {
     void click(int x, int y);
 }

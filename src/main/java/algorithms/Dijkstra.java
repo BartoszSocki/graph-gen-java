@@ -6,11 +6,11 @@ import graph.Graph;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReferenceArray;
 
 public class Dijkstra {
 
-    public static DijkstraResult dijkstra(Graph g, int source) throws VertexPriorityQueueException {
+    // TODO: wywal ten custom exception
+    public static Path dijkstra(Graph g, int source, int dest) throws VertexPriorityQueueException {
         int n = g.getCols() * g.getRows();
         int[] pred = new int[n];
         double[] dist = new double[n];
@@ -49,20 +49,20 @@ public class Dijkstra {
             dist[u.getId()] = u.getDist();
         }
 
-        return new DijkstraResult(pred, dist, source);
+        return getPath(pred, dist, dest);
     }
 
-    public static List<Integer> getPath(DijkstraResult dr, int dest) {
-        if (dr.getDist()[dest] == -1)
+    private static Path getPath(int[] pred, double[] dist, int dest) {
+        if (dist[dest] == -1)
             return null;
         List<Integer> nodes = new ArrayList<>();
         int j = dest;
         do {
             nodes.add(j);
-            j = dr.getPred()[j];
-        }
-        while (j != -1);
+            j = pred[j];
+        } while (j != -1);
 
-        return nodes;
+        return new Path(nodes.stream().mapToInt(n -> n).toArray());
+
     }
 }

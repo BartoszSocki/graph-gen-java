@@ -27,7 +27,7 @@ public class EdgeController extends Highlightable implements Drawable {
         double endY = (model.endVertex() / width) * dy + (dy) / 2;
 
         double hue = 1 - ((model.weight() - minWeight) / (maxWeight));
-        gc.setStroke(isHighlighted() ? getHighlightColor() : Color.hsb(360 * hue, 1, 1));
+        gc.setStroke(isHighlighted() ? getCurrentColor() : Color.hsb(360 * hue, 1, 1));
 
         // make edge start shifted, more to left or more to right
         double offsetX = (side / 4) * ((model.begVertex() / width <= model.endVertex() / width) ? -1 : 1);
