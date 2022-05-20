@@ -13,8 +13,6 @@ import javafx.stage.FileChooser;
 import utils.Logger;
 
 import java.io.File;
-import java.util.Deque;
-import java.util.LinkedList;
 
 public class MainController {
     private Graph graph;
@@ -43,8 +41,8 @@ public class MainController {
     @FXML
     private TextArea logField;
 
-    private int last_selected;
-    private int lastUpdatedField=0;
+    private int lastSelected;
+    private int lastUpdatedField = 0;
 
 
     // this is not optimal but simple
@@ -59,7 +57,7 @@ public class MainController {
 
     @FXML
     public void initialize() {
-        last_selected = -1;
+        lastSelected = -1;
 
         // for testing purposes
         graph = Graph.generateBidirectionalFromSeed(10, 10, 0, 1, 0);
@@ -67,34 +65,26 @@ public class MainController {
 
         // here goes vertex click logic
         graphController.setOnClickEvent((x, y) -> {
+            // cursed
             int vertex = graph.xyToIndex(y, x);
 
-            if(vertex == last_selected)
+            if (vertex == lastSelected)
                 return;
             resetGraph();
 
-            // cursed
-
-
-
             graphController.getGraphModel().getVertex(vertex).setHighlighted(true);
-            if(last_selected != -1)
-                graphController.getGraphModel().getVertex(last_selected).setHighlighted(true);
+            if (lastSelected != -1)
+                graphController.getGraphModel().getVertex(lastSelected).setHighlighted(true);
 
             int unselected = -1;
 
-            if(lastUpdatedField == 0)
-            {
+            if (lastUpdatedField == 0) {
                 dijkstraStartField.setText(Integer.toString(vertex));
                 bfsStartField.setText(Integer.toString(vertex));
-            }
-            else if(lastUpdatedField == 1)
-            {
+            } else if (lastUpdatedField == 1) {
                 dijkstraEndField.setText(Integer.toString(vertex));
                 bfsStartField.setText(Integer.toString(vertex));
-            }
-            else if(lastUpdatedField == 2)
-            {
+            } else if (lastUpdatedField == 2) {
                 unselected = Integer.parseInt(dijkstraStartField.getText());
                 dijkstraStartField.setText(dijkstraEndField.getText());
                 dijkstraEndField.setText(Integer.toString(vertex));
@@ -107,12 +97,12 @@ public class MainController {
             }
 
 
-            if(lastUpdatedField != 2)
+            if (lastUpdatedField != 2)
                 lastUpdatedField++;
             else
-                lastUpdatedField=0;
+                lastUpdatedField = 0;
 
-            last_selected = vertex;
+            lastSelected = vertex;
 
             graphController.drawGraph();
         });
@@ -134,9 +124,6 @@ public class MainController {
         graphController.getCanvas().layoutYProperty().bind(graphPane.heightProperty().subtract(side).divide(2));
 
 
-
-
-
         Logger.setTextField(logField);
     }
 
@@ -148,8 +135,8 @@ public class MainController {
     public void runDijkstraButtonPressed(ActionEvent e) {
         int start = -1;
         int end = -1;
-        try{
-            if(dijkstraStartField.getText().length() != 0 && dijkstraEndField.getText().length() != 0) {
+        try {
+            if (dijkstraStartField.getText().length() != 0 && dijkstraEndField.getText().length() != 0) {
                 start = Integer.parseInt(dijkstraStartField.getText());
                 end = Integer.parseInt(dijkstraEndField.getText());
                 Logger.clear();
@@ -158,9 +145,7 @@ public class MainController {
             } else {
                 Logger.displayError("DIJKSTRA", "Two points have to be specified!");
             }
-        }
-        catch(NumberFormatException nfe)
-        {
+        } catch (NumberFormatException nfe) {
             Logger.displayError("DIJKSTRA", "Vertex indexes have to be integers!");
         }
 
@@ -202,13 +187,10 @@ public class MainController {
                 Logger.clear();
                 runBfs(start);
                 clearFields();
-            }
-            else {
+            } else {
                 Logger.displayError("BFS", "Vertex index has to be specified!");
             }
-        }
-        catch (NumberFormatException nfe)
-        {
+        } catch (NumberFormatException nfe) {
             Logger.displayError("BFS", "Vertex index has to be integer!");
         }
 
@@ -295,10 +277,9 @@ public class MainController {
     }
 
 
-    private void clearFields()
-    {
+    private void clearFields() {
         lastUpdatedField = 0;
-        last_selected = -1;
+        lastSelected = -1;
         dijkstraStartField.setText("");
         dijkstraEndField.setText("");
         bfsStartField.setText("");

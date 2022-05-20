@@ -45,8 +45,8 @@ public class GraphModel {
     }
 
     public void addVertex(Vertex vertex) {
-        if (vertices.get(vertex.getVertex()) != null) return;
-        vertices.set(vertex.getVertex(), new VertexController(vertex));
+        if (vertices.get(vertex.vertex()) != null) return;
+        vertices.set(vertex.vertex(), new VertexController(vertex));
     }
 
     public VertexController getVertex(int vertex) {

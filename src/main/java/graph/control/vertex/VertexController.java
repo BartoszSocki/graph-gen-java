@@ -20,8 +20,8 @@ public class VertexController extends Highlightable implements Drawable {
 
     @Override
     public void draw(GraphicsContext gc, double dx, double dy, int width, int height, double side, double minWeight, double maxWeight) {
-        double recX = (this.model.getVertex() % width) * dx + (dx - side) / 2;
-        double recY = (this.model.getVertex() / width) * dy + (dy - side) / 2;
+        double recX = (this.model.vertex() % width) * dx + (dx - side) / 2;
+        double recY = (this.model.vertex() / width) * dy + (dy - side) / 2;
 
         gc.setFill(this.getCurrentColor());
         gc.fillRect(recX, recY, side, side);
