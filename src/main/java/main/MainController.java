@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
+import utils.Logger;
 
 import java.io.File;
 import java.util.Deque;
@@ -39,17 +40,12 @@ public class MainController {
     private TextField dijkstraEndField;
     @FXML
     private TextField bfsStartField;
+    @FXML
+    private TextArea logField;
 
-    private final Deque<Integer> lastSelectedVertices;
+    private int last_selected;
+    private int lastUpdatedField=0;
 
-    private boolean dijkstraUseTextInput;
-    private boolean bfsUseTextInput;
-
-    public MainController() {
-        this.dijkstraUseTextInput = true;
-        this.bfsUseTextInput = true;
-        this.lastSelectedVertices = new LinkedList<>();
-    }
 
     // this is not optimal but simple
     public void clearHighlighted() {
@@ -63,41 +59,60 @@ public class MainController {
 
     @FXML
     public void initialize() {
+        last_selected = -1;
+
         // for testing purposes
         graph = Graph.generateBidirectionalFromSeed(10, 10, 0, 1, 0);
         graphController.loadGraph(graph);
 
         // here goes vertex click logic
         graphController.setOnClickEvent((x, y) -> {
+            int vertex = graph.xyToIndex(y, x);
+
+            if(vertex == last_selected)
+                return;
             resetGraph();
 
             // cursed
-            int vertex = graph.xyToIndex(y, x);
+
+
+
             graphController.getGraphModel().getVertex(vertex).setHighlighted(true);
+            if(last_selected != -1)
+                graphController.getGraphModel().getVertex(last_selected).setHighlighted(true);
 
-            // removes all duplicates
-            if (lastSelectedVertices.size() > 0 && lastSelectedVertices.contains(vertex)) {
-                lastSelectedVertices.remove(vertex);
-                graphController.getGraphModel().getVertex(vertex).setHighlighted(false);
-                // temporary solution
-                for (var selectedVertex : lastSelectedVertices)
-                    graphController.getGraphModel().getVertex(selectedVertex).setHighlighted(true);
-                graphController.drawGraph();
-                return;
+            int unselected = -1;
+
+            if(lastUpdatedField == 0)
+            {
+                dijkstraStartField.setText(Integer.toString(vertex));
+                bfsStartField.setText(Integer.toString(vertex));
             }
-            System.out.println("1: " + lastSelectedVertices);
-
-            lastSelectedVertices.add(vertex);
+            else if(lastUpdatedField == 1)
+            {
+                dijkstraEndField.setText(Integer.toString(vertex));
+                bfsStartField.setText(Integer.toString(vertex));
+            }
+            else if(lastUpdatedField == 2)
+            {
+                unselected = Integer.parseInt(dijkstraStartField.getText());
+                dijkstraStartField.setText(dijkstraEndField.getText());
+                dijkstraEndField.setText(Integer.toString(vertex));
+                bfsStartField.setText(Integer.toString(vertex));
+            }
 
             // remove elements when overflowing
-            if (lastSelectedVertices.size() == 3) {
-                int unselected = lastSelectedVertices.removeFirst();
+            if (lastUpdatedField == 2) {
                 graphController.getGraphModel().getVertex(unselected).setHighlighted(false);
             }
 
-            // temporary solution
-            for (var selectedVertex : lastSelectedVertices)
-                graphController.getGraphModel().getVertex(selectedVertex).setHighlighted(true);
+
+            if(lastUpdatedField != 2)
+                lastUpdatedField++;
+            else
+                lastUpdatedField=0;
+
+            last_selected = vertex;
 
             graphController.drawGraph();
         });
@@ -117,6 +132,12 @@ public class MainController {
         // center canvas inside pane
         graphController.getCanvas().layoutXProperty().bind(graphPane.widthProperty().subtract(side).divide(2));
         graphController.getCanvas().layoutYProperty().bind(graphPane.heightProperty().subtract(side).divide(2));
+
+
+
+
+
+        Logger.setTextField(logField);
     }
 
     private void resetGraph() {
@@ -124,38 +145,26 @@ public class MainController {
         graphController.drawGraph();
     }
 
-    @FXML
-    public void dijkstraTextInputChecked(ActionEvent e) {
-        dijkstraUseTextInput = !dijkstraUseTextInput;
-
-        dijkstraStartField.setEditable(dijkstraUseTextInput);
-        dijkstraEndField.setEditable(dijkstraUseTextInput);
-
-        dijkstraEndField.setVisible(dijkstraUseTextInput);
-        dijkstraStartField.setVisible(dijkstraUseTextInput);
-
-        dijkstraStartField.setText("");
-        dijkstraEndField.setText("");
-
-        resetGraph();
-    }
-
-    @FXML
     public void runDijkstraButtonPressed(ActionEvent e) {
         int start = -1;
         int end = -1;
-
-        if (!dijkstraUseTextInput && lastSelectedVertices.size() == 2) {
-            start = lastSelectedVertices.remove();
-            end = lastSelectedVertices.remove();
-        } else if (dijkstraStartField.getText().length() != 0 && dijkstraEndField.getText().length() != 0) {
-            start = Integer.parseInt(dijkstraStartField.getText());
-            end = Integer.parseInt(dijkstraEndField.getText());
-        } else {
-            createAlertWindow("Dijkstra", "Wrong input!");
+        try{
+            if(dijkstraStartField.getText().length() != 0 && dijkstraEndField.getText().length() != 0) {
+                start = Integer.parseInt(dijkstraStartField.getText());
+                end = Integer.parseInt(dijkstraEndField.getText());
+                Logger.clear();
+                runDijkstra(start, end);
+                clearFields();
+            } else {
+                Logger.displayError("DIJKSTRA", "Two points have to be specified!");
+            }
+        }
+        catch(NumberFormatException nfe)
+        {
+            Logger.displayError("DIJKSTRA", "Vertex indexes have to be integers!");
         }
 
-        runDijkstra(start, end);
+
     }
 
     // TODO: wywala index out of bounds exception
@@ -172,7 +181,7 @@ public class MainController {
                     System.out.println(u + " " + v);
                     graphController.getGraphModel().getVertex(u).setHighlighted(true);
                     graphController.getGraphModel().getVertex(v).setHighlighted(true);
-                    // TODO: kolorowanie do poprawy, bo się program wypierdala
+                    // TODO: kolorowanie do poprawy, bo się program wywala
 //                    graphController.getGraphModel().getEdge(u, v).setHighlighted(true);
                 }
                 graphController.drawGraph();
@@ -180,34 +189,30 @@ public class MainController {
                 System.out.println(e.getMessage());
             }
         }).start();
-    }
 
-    @FXML
-    private void bfsTextInputChecked() {
-        resetGraph();
-
-        bfsUseTextInput = !bfsUseTextInput;
-        bfsStartField.setVisible(bfsUseTextInput);
-        bfsStartField.setEditable(bfsUseTextInput);
     }
 
     @FXML
     public void runBfsButtonPressed(ActionEvent e) {
+        int start = -1;
         try {
-            int start = -1;
-
-            if (!bfsUseTextInput && lastSelectedVertices.size() > 0) {
-                start = lastSelectedVertices.remove();
-            } else if (bfsStartField.getText().length() != 0) {
+            if (bfsStartField.getText().length() != 0) {
                 start = Integer.parseInt(bfsStartField.getText());
-            } else {
-                createAlertWindow("BFS", "Wrong input!");
-            }
 
-            runBfs(start);
-        } catch (Exception nfe) {
-            createAlertWindow("BFS", "Wrong input!");
+                Logger.clear();
+                runBfs(start);
+                clearFields();
+            }
+            else {
+                Logger.displayError("BFS", "Vertex index has to be specified!");
+            }
         }
+        catch (NumberFormatException nfe)
+        {
+            Logger.displayError("BFS", "Vertex index has to be integer!");
+        }
+
+
     }
 
     private void runBfs(int start) {
@@ -218,6 +223,8 @@ public class MainController {
             graphController.getGraphModel().getVertex(vertex).setHighlighted(true);
 
         graphController.drawGraph();
+
+
     }
 
     @FXML
@@ -240,16 +247,7 @@ public class MainController {
             graphController.loadGraph(graph);
             graphController.drawGraph();
         } catch (Exception nfe) {
-            createAlertWindow("Generate graph", "Wrong input!");
         }
-    }
-
-    private void createAlertWindow(String title, String msg) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Graphalgo-gui error!");
-        alert.setHeaderText(title);
-        alert.setContentText(msg);
-        alert.showAndWait();
     }
 
     @FXML
@@ -294,5 +292,15 @@ public class MainController {
     public void clearGraphButtonPressed(ActionEvent e) {
         clearHighlighted();
         graphController.drawGraph();
+    }
+
+
+    private void clearFields()
+    {
+        lastUpdatedField = 0;
+        last_selected = -1;
+        dijkstraStartField.setText("");
+        dijkstraEndField.setText("");
+        bfsStartField.setText("");
     }
 }
