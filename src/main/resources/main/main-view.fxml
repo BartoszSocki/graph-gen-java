@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
+<?import javafx.scene.control.TextArea?>
 <GridPane fx:id="grid" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.MainController">
   <rowConstraints>
     <RowConstraints vgrow="SOMETIMES" />
@@ -112,7 +113,6 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <CheckBox mnemonicParsing="false" onAction="#dijkstraTextInputChecked" selected="true" text="text input" GridPane.columnIndex="1" />
                         <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="2.147483648E9" style="-fx-font-weight: 700;" text="Dijkstra" />
                      </children>
                   </GridPane>
@@ -168,12 +168,12 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <CheckBox mnemonicParsing="false" onAction="#bfsTextInputChecked" selected="true" text="text input" GridPane.columnIndex="1" />
                         <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="2.147483648E9" style="-fx-font-weight: 700;" text="BFS" />
                      </children>
                   </GridPane>
                </children>
             </GridPane>
+             <TextArea fx:id="logField" wrapText="true" prefWidth="100" prefHeight="70"  style="-fx-text-fill: red;" GridPane.rowIndex="4"/>
          </children>
       </GridPane>
    </children>
