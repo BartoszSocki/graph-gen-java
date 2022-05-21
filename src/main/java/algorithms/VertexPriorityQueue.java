@@ -81,10 +81,7 @@ public class VertexPriorityQueue {
         heapifyUp(size-1);
     }
 
-    public QueuedVertex poll() throws VertexPriorityQueueException {
-        if(size == 0)
-            throw new VertexPriorityQueueException("cannot poll, the queue is empty!");
-
+    public QueuedVertex poll(){
         QueuedVertex item = vertices[0];
         verticies_indexes[item.getId()] = -1;
 
