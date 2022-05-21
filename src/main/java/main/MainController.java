@@ -65,8 +65,8 @@ public class MainController {
 
         // here goes vertex click logic
         graphController.setOnClickEvent((x, y) -> {
-            // cursed
-            int vertex = graph.xyToIndex(y, x);
+            // calculating vertex at hand because we don't use Graph to store GraphModel data
+            int vertex = graphController.getGraphModel().getWidth() * y + x;
 
             if (vertex == lastSelected)
                 return;
