@@ -43,17 +43,6 @@ public class MainController {
     private int lastSelected;
     private int lastUpdatedField = 0;
 
-
-    // this is not optimal but simple
-    public void clearHighlighted() {
-        for (var vertex : graphController.getGraphModel().getVertices())
-            if (vertex != null)
-                vertex.setHighlighted(false);
-
-        for (var edge : graphController.getGraphModel().getEdges().values())
-            edge.setHighlighted(false);
-    }
-
     @FXML
     public void initialize() {
         lastSelected = -1;
@@ -72,6 +61,7 @@ public class MainController {
             resetGraph();
 
             graphController.getGraphModel().getVertex(vertex).setHighlighted(true);
+
             if (lastSelected != -1)
                 graphController.getGraphModel().getVertex(lastSelected).setHighlighted(true);
 
@@ -127,7 +117,7 @@ public class MainController {
     }
 
     private void resetGraph() {
-        clearHighlighted();
+        graphController.clearHighlighted();
         graphController.drawGraph();
     }
 
@@ -147,21 +137,18 @@ public class MainController {
         } catch (NumberFormatException nfe) {
             Logger.displayError("DIJKSTRA", "Vertex indexes have to be integers!");
         }
-
-
     }
 
     private void runDijkstra(int start, int end) {
         new Thread(() -> {
             try {
-                clearHighlighted();
                 Path path = Dijkstra.dijkstra(graphController.getCurrentGraph(), start, end);
+                graphController.clearHighlighted();
                 graphController.highlightPath(path, true);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
         }).start();
-
     }
 
     @FXML
@@ -183,7 +170,7 @@ public class MainController {
     }
 
     private void runBfs(int start) {
-        clearHighlighted();
+        graphController.clearHighlighted();
 
         Path path = BFS.bfs(graphController.getCurrentGraph(), start);
         graphController.highlightPath(path, false);
@@ -252,8 +239,8 @@ public class MainController {
 
     @FXML
     public void clearGraphButtonPressed(ActionEvent e) {
-        clearHighlighted();
         clearFields();
+        graphController.clearHighlighted();
         graphController.drawGraph();
     }
 

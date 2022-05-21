@@ -21,6 +21,15 @@ public class GraphController {
         drawGraph();
     }
 
+    // this is not optimal but simple
+    public void clearHighlighted() {
+        for (var vertex : getGraphModel().getVertices())
+            if (vertex != null)
+                vertex.setHighlighted(false);
+
+        for (var edge : getGraphModel().getEdges().values())
+            edge.setHighlighted(false);
+    }
     public synchronized void clearCanvas() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }
