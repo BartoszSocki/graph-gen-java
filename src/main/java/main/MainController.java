@@ -15,7 +15,6 @@ import utils.Logger;
 import java.io.File;
 
 public class MainController {
-    private Graph graph;
     @FXML
     private GraphController graphController;
     @FXML
@@ -59,14 +58,14 @@ public class MainController {
     public void initialize() {
         lastSelected = -1;
 
-        // for testing purposes
-        graph = Graph.generateBidirectionalFromSeed(10, 10, 0, 1, 0);
+        // default graph
+        Graph graph = Graph.generateBidirectionalFromSeed(10, 10, 0, 1, 0);
         graphController.loadGraph(graph);
 
         // here goes vertex click logic
         graphController.setOnClickEvent((x, y) -> {
             // cursed
-            int vertex = graph.xyToIndex(y, x);
+            int vertex = graphController.getCurrentGraph().xyToIndex(y, x);
 
             if (vertex == lastSelected)
                 return;
@@ -96,7 +95,6 @@ public class MainController {
                 graphController.getGraphModel().getVertex(unselected).setHighlighted(false);
             }
 
-
             if (lastUpdatedField != 2)
                 lastUpdatedField++;
             else
@@ -107,6 +105,7 @@ public class MainController {
             graphController.drawGraph();
         });
 
+        // make right panel fixed size
         ColumnConstraints col1 = new ColumnConstraints();
         ColumnConstraints col2 = new ColumnConstraints(200);
         col1.setHgrow(Priority.ALWAYS);
@@ -152,24 +151,12 @@ public class MainController {
 
     }
 
-    // TODO: wywala index out of bounds exception
     private void runDijkstra(int start, int end) {
         new Thread(() -> {
             try {
                 clearHighlighted();
-                Path dr = Dijkstra.dijkstra(graph, start, end);
-                int[] path = dr.vertices();
-
-                for (int i = 1; i < path.length; i++) {
-                    int u = path[i - 1];
-                    int v = path[i];
-                    System.out.println(u + " " + v);
-                    graphController.getGraphModel().getVertex(u).setHighlighted(true);
-                    graphController.getGraphModel().getVertex(v).setHighlighted(true);
-                    // TODO: kolorowanie do poprawy, bo się program wywala
-//                    graphController.getGraphModel().getEdge(u, v).setHighlighted(true);
-                }
-                graphController.drawGraph();
+                Path path = Dijkstra.dijkstra(graphController.getCurrentGraph(), start, end);
+                graphController.highlightPath(path, true);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
@@ -193,20 +180,13 @@ public class MainController {
         } catch (NumberFormatException nfe) {
             Logger.displayError("BFS", "Vertex index has to be integer!");
         }
-
-
     }
 
     private void runBfs(int start) {
         clearHighlighted();
 
-        Path path = BFS.bfs(graph, start);
-        for (var vertex : path.vertices())
-            graphController.getGraphModel().getVertex(vertex).setHighlighted(true);
-
-        graphController.drawGraph();
-
-
+        Path path = BFS.bfs(graphController.getCurrentGraph(), start);
+        graphController.highlightPath(path, false);
     }
 
     @FXML
@@ -225,7 +205,7 @@ public class MainController {
 
             graphController.clearCanvas();
 
-            graph = Graph.generateBidirectionalFromSeed(rows, cols, min, max, seed);
+            Graph graph = Graph.generateBidirectionalFromSeed(rows, cols, min, max, seed);
             graphController.loadGraph(graph);
             graphController.drawGraph();
         } catch (Exception nfe) {
@@ -240,7 +220,7 @@ public class MainController {
 
         try {
             if (fileToOpen != null) {
-                graph = Graph.readFromFile(fileToOpen);
+                Graph graph = Graph.readFromFile(fileToOpen);
                 graphController.loadGraph(graph);
 
                 graphController.clearCanvas();
@@ -261,7 +241,7 @@ public class MainController {
 
         try {
             if (f != null) {
-                Graph.writeToFile(graph, f.getPath());
+                Graph.writeToFile(graphController.getCurrentGraph(), f.getPath());
             } else {
 
             }
@@ -273,9 +253,9 @@ public class MainController {
     @FXML
     public void clearGraphButtonPressed(ActionEvent e) {
         clearHighlighted();
+        clearFields();
         graphController.drawGraph();
     }
-
 
     private void clearFields() {
         lastUpdatedField = 0;
