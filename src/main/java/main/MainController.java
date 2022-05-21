@@ -165,7 +165,7 @@ public class MainController {
                 Logger.displayError("BFS", "Vertex index has to be specified!");
             }
         } catch (NumberFormatException nfe) {
-            Logger.displayError("BFS", "Vertex index has to be integer!");
+            Logger.displayError("bfs", "vertex index has to be integer!");
         }
     }
 
@@ -187,6 +187,12 @@ public class MainController {
             cols = Integer.parseInt(graphGenColsField.getText());
             min = Double.parseDouble(graphGenMinField.getText());
             max = Double.parseDouble(graphGenMaxField.getText());
+
+            if(rows <=0 || cols <= 0)
+                throw new IllegalArgumentException("rows and cols have to be positive numbers!");
+            if(min >= max)
+                throw new IllegalArgumentException("min should be smaller than max");
+
             if (!graphGenSeedField.getText().isEmpty())
                 seed = Integer.parseInt(graphGenSeedField.getText());
 
@@ -195,7 +201,12 @@ public class MainController {
             Graph graph = Graph.generateBidirectionalFromSeed(rows, cols, min, max, seed);
             graphController.loadGraph(graph);
             graphController.drawGraph();
-        } catch (Exception nfe) {
+        }
+        catch (NumberFormatException nfe) {
+            Logger.displayError("Generate", "Rows, cols, min, max have to be numbers!");
+        }
+        catch (IllegalArgumentException il) {
+            Logger.displayError("Generate", il.getMessage());
         }
     }
 
@@ -216,7 +227,7 @@ public class MainController {
                 System.out.println("file is null");
             }
         } catch (Exception exe) {
-            System.out.println(exe.getMessage());
+            Logger.displayError("Load File", "Cannot load file!");
         }
     }
 
@@ -233,7 +244,7 @@ public class MainController {
 
             }
         } catch (Exception exe) {
-
+            Logger.displayError("Save File", "Cannot save file!");
         }
     }
 

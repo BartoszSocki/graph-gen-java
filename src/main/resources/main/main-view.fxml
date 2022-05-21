@@ -173,7 +173,7 @@
                   </GridPane>
                </children>
             </GridPane>
-             <TextArea fx:id="logField" wrapText="true" prefWidth="100" prefHeight="70"  style="-fx-text-fill: red;" GridPane.rowIndex="4"/>
+             <TextArea fx:id="logField" editable="false" wrapText="true" prefWidth="100" prefHeight="70"  style="-fx-text-fill: red;" GridPane.rowIndex="4"/>
          </children>
       </GridPane>
    </children>
