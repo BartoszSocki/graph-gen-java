@@ -96,7 +96,6 @@ public class MainController {
                 graphController.getGraphModel().getVertex(unselected).setHighlighted(false);
             }
 
-
             if (lastUpdatedField != 2)
                 lastUpdatedField++;
             else
@@ -107,6 +106,7 @@ public class MainController {
             graphController.drawGraph();
         });
 
+        // make right panel fixed size
         ColumnConstraints col1 = new ColumnConstraints();
         ColumnConstraints col2 = new ColumnConstraints(200);
         col1.setHgrow(Priority.ALWAYS);
@@ -152,24 +152,12 @@ public class MainController {
 
     }
 
-    // TODO: wywala index out of bounds exception
     private void runDijkstra(int start, int end) {
         new Thread(() -> {
             try {
                 clearHighlighted();
-                Path dr = Dijkstra.dijkstra(graph, start, end);
-                int[] path = dr.vertices();
-
-                for (int i = 1; i < path.length; i++) {
-                    int u = path[i - 1];
-                    int v = path[i];
-                    System.out.println(u + " " + v);
-                    graphController.getGraphModel().getVertex(u).setHighlighted(true);
-                    graphController.getGraphModel().getVertex(v).setHighlighted(true);
-                    // TODO: kolorowanie do poprawy, bo się program wywala
-//                    graphController.getGraphModel().getEdge(u, v).setHighlighted(true);
-                }
-                graphController.drawGraph();
+                Path path = Dijkstra.dijkstra(graph, start, end);
+                graphController.highlightPath(path, true);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
@@ -193,20 +181,13 @@ public class MainController {
         } catch (NumberFormatException nfe) {
             Logger.displayError("BFS", "Vertex index has to be integer!");
         }
-
-
     }
 
     private void runBfs(int start) {
         clearHighlighted();
 
         Path path = BFS.bfs(graph, start);
-        for (var vertex : path.vertices())
-            graphController.getGraphModel().getVertex(vertex).setHighlighted(true);
-
-        graphController.drawGraph();
-
-
+        graphController.highlightPath(path, false);
     }
 
     @FXML
@@ -275,7 +256,6 @@ public class MainController {
         clearHighlighted();
         graphController.drawGraph();
     }
-
 
     private void clearFields() {
         lastUpdatedField = 0;

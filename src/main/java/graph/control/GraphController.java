@@ -1,6 +1,8 @@
 package graph.control;
 
+import algorithms.Path;
 import graph.Graph;
+import graph.control.edge.EdgeController;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -29,8 +31,25 @@ public class GraphController {
         drawGraph();
     }
 
-    public void setOnClickEvent(ClickConsumer onClick) {
-        this.onVertexClick = onClick;
+    public void highlightPath(Path path, boolean highlightEdges) {
+        for (var vertex : path.vertices())
+            getGraphModel().getVertex(vertex).setHighlighted(true);
+
+        if (!highlightEdges) {
+            draw();
+            return;
+        }
+
+        for (int i = 0; i < path.vertices().length - 1; i++) {
+            int begVertex = path.vertices()[i];
+            int endVertex = path.vertices()[i + 1];
+
+            if (getGraphModel().getEdge(begVertex, endVertex) != null)
+                getGraphModel().getEdge(begVertex, endVertex).setHighlighted(true);
+            else
+                getGraphModel().getEdge(endVertex, begVertex).setHighlighted(true);
+        }
+        draw();
     }
 
     @FXML
@@ -89,6 +108,9 @@ public class GraphController {
         drawDrawable(graph.getVertices());
     }
 
+    public void setOnClickEvent(ClickConsumer onClick) {
+        this.onVertexClick = onClick;
+    }
     public GraphModel getGraphModel() {
         return graph;
     }
