@@ -15,7 +15,6 @@ import utils.Logger;
 import java.io.File;
 
 public class MainController {
-    private Graph graph;
     @FXML
     private GraphController graphController;
     @FXML
@@ -59,14 +58,14 @@ public class MainController {
     public void initialize() {
         lastSelected = -1;
 
-        // for testing purposes
-        graph = Graph.generateBidirectionalFromSeed(10, 10, 0, 1, 0);
+        // default graph
+        Graph graph = Graph.generateBidirectionalFromSeed(10, 10, 0, 1, 0);
         graphController.loadGraph(graph);
 
         // here goes vertex click logic
         graphController.setOnClickEvent((x, y) -> {
-            // calculating vertex at hand because we don't use Graph to store GraphModel data
-            int vertex = graphController.getGraphModel().getWidth() * y + x;
+            // cursed
+            int vertex = graphController.getCurrentGraph().xyToIndex(y, x);
 
             if (vertex == lastSelected)
                 return;
@@ -156,7 +155,7 @@ public class MainController {
         new Thread(() -> {
             try {
                 clearHighlighted();
-                Path path = Dijkstra.dijkstra(graph, start, end);
+                Path path = Dijkstra.dijkstra(graphController.getCurrentGraph(), start, end);
                 graphController.highlightPath(path, true);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -186,7 +185,7 @@ public class MainController {
     private void runBfs(int start) {
         clearHighlighted();
 
-        Path path = BFS.bfs(graph, start);
+        Path path = BFS.bfs(graphController.getCurrentGraph(), start);
         graphController.highlightPath(path, false);
     }
 
@@ -206,7 +205,7 @@ public class MainController {
 
             graphController.clearCanvas();
 
-            graph = Graph.generateBidirectionalFromSeed(rows, cols, min, max, seed);
+            Graph graph = Graph.generateBidirectionalFromSeed(rows, cols, min, max, seed);
             graphController.loadGraph(graph);
             graphController.drawGraph();
         } catch (Exception nfe) {
@@ -221,7 +220,7 @@ public class MainController {
 
         try {
             if (fileToOpen != null) {
-                graph = Graph.readFromFile(fileToOpen);
+                Graph graph = Graph.readFromFile(fileToOpen);
                 graphController.loadGraph(graph);
 
                 graphController.clearCanvas();
@@ -242,7 +241,7 @@ public class MainController {
 
         try {
             if (f != null) {
-                Graph.writeToFile(graph, f.getPath());
+                Graph.writeToFile(graphController.getCurrentGraph(), f.getPath());
             } else {
 
             }
@@ -254,6 +253,7 @@ public class MainController {
     @FXML
     public void clearGraphButtonPressed(ActionEvent e) {
         clearHighlighted();
+        clearFields();
         graphController.drawGraph();
     }
 

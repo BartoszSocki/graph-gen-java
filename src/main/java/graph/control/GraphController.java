@@ -14,6 +14,7 @@ public class GraphController {
     private GraphModel graph;
     private GraphicsContext gc;
     private ClickConsumer onVertexClick;
+    private Graph currentGraph;
 
     public synchronized void draw() {
         clearCanvas();
@@ -27,6 +28,7 @@ public class GraphController {
     public void loadGraph(Graph graph) {
         if (graph == null)
             throw new NullPointerException("graph is null");
+        this.currentGraph = graph;
         this.graph = new GraphModel(graph);
         drawGraph();
     }
@@ -116,5 +118,9 @@ public class GraphController {
     }
     public Canvas getCanvas() {
         return canvas;
+    }
+
+    public Graph getCurrentGraph() {
+        return currentGraph;
     }
 }
