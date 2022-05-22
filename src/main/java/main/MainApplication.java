@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -25,6 +26,7 @@ public class MainApplication extends Application {
         stage.setMinHeight(sceneMinHeight);
         stage.setMinWidth(sceneMinWidth);
         stage.show();
+        stage.getIcons().add(new Image(MainApplication.class.getResourceAsStream("icon.jpg")));
     }
 
     public static void main(String[] args) {
