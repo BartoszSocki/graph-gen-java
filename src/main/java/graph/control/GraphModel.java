@@ -20,7 +20,7 @@ public class GraphModel {
     private final double min;
     private final double max;
 
-    public GraphModel(Graph graph, Color highlighColor, Color defaultColor) {
+    public GraphModel(Graph graph, Color highlightColor, Color defaultColor) {
         this.width = graph.getCols();
         this.height = graph.getRows();
         this.vertices = new ArrayList<>(Collections.nCopies(width * height, null));
@@ -28,7 +28,7 @@ public class GraphModel {
 
         for (var vertex : graph.getVertices())
             if (vertex != null)
-                addVertex(vertex, highlighColor, defaultColor);
+                addVertex(vertex, highlightColor, defaultColor);
 
         double tempMin = Double.POSITIVE_INFINITY;
         double tempMax = Double.NEGATIVE_INFINITY;
@@ -47,7 +47,7 @@ public class GraphModel {
             for (var edge : edgesFromVertex) {
                 double hue = 1 - ((edge.weight() - min) / (max));
                 Color defaultEdgeColor = Color.hsb(360 * hue, 1, 1);
-                addEdge(edge, highlighColor, defaultEdgeColor);
+                addEdge(edge, highlightColor, defaultEdgeColor);
             }
         }
     }
@@ -86,13 +86,5 @@ public class GraphModel {
 
     public int getHeight() {
         return height;
-    }
-
-    public double getMin() {
-        return min;
-    }
-
-    public double getMax() {
-        return max;
     }
 }

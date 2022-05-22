@@ -50,6 +50,7 @@ public class MainController {
         // default graph
         Graph graph = Graph.generateBidirectionalFromSeed(10, 10, 0, 1, 0);
         graphController.loadGraph(graph);
+        graphController.draw();
 
         // here goes vertex click logic
         graphController.setOnClickEvent((x, y) -> {
@@ -58,8 +59,8 @@ public class MainController {
 
             if (vertex == lastSelected)
                 return;
-            resetGraph();
 
+            graphController.clearHighlighted();
             graphController.getGraphModel().getVertex(vertex).setHighlighted(true);
 
             if (lastSelected != -1)
@@ -85,14 +86,11 @@ public class MainController {
                 graphController.getGraphModel().getVertex(unselected).setHighlighted(false);
             }
 
-            if (lastUpdatedField != 2)
-                lastUpdatedField++;
-            else
-                lastUpdatedField = 0;
-
+            // update value when user clicked 3 times
+            lastUpdatedField = (lastUpdatedField != 2) ? lastUpdatedField + 1 : 0;
             lastSelected = vertex;
 
-            graphController.drawGraph();
+            graphController.draw();
         });
 
         // make right panel fixed size
@@ -112,16 +110,10 @@ public class MainController {
         graphController.getCanvas().layoutXProperty().bind(graphPane.widthProperty().subtract(side).divide(2));
         graphController.getCanvas().layoutYProperty().bind(graphPane.heightProperty().subtract(side).divide(2));
 
-
         Logger.setTextField(logField);
     }
 
-    private void resetGraph() {
-        graphController.clearHighlighted();
-        graphController.draw();
-    }
-
-    public void runDijkstraButtonPressed(ActionEvent e) {
+    public void runDijkstraButtonPressed(ActionEvent event) {
         int start = -1;
         int end = -1;
         try {
@@ -136,23 +128,25 @@ public class MainController {
             }
         } catch (NumberFormatException nfe) {
             Logger.displayError("DIJKSTRA", "Vertex indexes have to be integers!");
+        } catch (IllegalArgumentException e) {
+            Logger.displayError("DIJKSTRA", e.getMessage());
         }
     }
 
-    private void runDijkstra(int start, int end) {
+    private void runDijkstra(int begVertex, int endVertex) {
+        if (graphController.getCurrentGraph().isVertexOutOfBounds(begVertex) ||
+                graphController.getCurrentGraph().isVertexOutOfBounds(endVertex))
+            throw new IllegalArgumentException("Vertices are out of bounds");
+
         new Thread(() -> {
-            try {
-                Path path = Dijkstra.dijkstra(graphController.getCurrentGraph(), start, end);
-                graphController.clearHighlighted();
-                graphController.highlightPath(path, true);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
+            Path path = Dijkstra.dijkstra(graphController.getCurrentGraph(), begVertex, endVertex);
+            graphController.clearHighlighted();
+            graphController.highlightPath(path, true);
         }).start();
     }
 
     @FXML
-    public void runBfsButtonPressed(ActionEvent e) {
+    public void runBfsButtonPressed(ActionEvent event) {
         int start = -1;
         try {
             if (bfsStartField.getText().length() != 0) {
@@ -166,14 +160,21 @@ public class MainController {
             }
         } catch (NumberFormatException nfe) {
             Logger.displayError("bfs", "vertex index has to be integer!");
+        } catch (IllegalArgumentException e) {
+            Logger.displayError("bfs", e.getMessage());
         }
     }
 
-    private void runBfs(int start) {
-        graphController.clearHighlighted();
+    private void runBfs(int begVertex) {
+        if (graphController.getCurrentGraph().isVertexOutOfBounds(begVertex))
+            throw new IllegalArgumentException("Vertex out of bounds");
 
-        Path path = BFS.bfs(graphController.getCurrentGraph(), start);
-        graphController.highlightPath(path, false);
+        new Thread(() -> {
+            Path path = BFS.bfs(graphController.getCurrentGraph(), begVertex);
+
+            graphController.clearHighlighted();
+            graphController.highlightPath(path, false);
+        }).start();
     }
 
     @FXML
@@ -188,24 +189,21 @@ public class MainController {
             min = Double.parseDouble(graphGenMinField.getText());
             max = Double.parseDouble(graphGenMaxField.getText());
 
-            if(rows <=0 || cols <= 0)
+            if (rows <= 0 || cols <= 0)
                 throw new IllegalArgumentException("rows and cols have to be positive numbers!");
-            if(min >= max)
+            if (min >= max)
                 throw new IllegalArgumentException("min should be smaller than max");
 
             if (!graphGenSeedField.getText().isEmpty())
                 seed = Integer.parseInt(graphGenSeedField.getText());
 
-            graphController.clearCanvas();
-
             Graph graph = Graph.generateBidirectionalFromSeed(rows, cols, min, max, seed);
             graphController.loadGraph(graph);
-            graphController.drawGraph();
-        }
-        catch (NumberFormatException nfe) {
+            graphController.draw();
+
+        } catch (NumberFormatException nfe) {
             Logger.displayError("Generate", "Rows, cols, min, max have to be numbers!");
-        }
-        catch (IllegalArgumentException il) {
+        } catch (IllegalArgumentException il) {
             Logger.displayError("Generate", il.getMessage());
         }
     }
@@ -220,9 +218,7 @@ public class MainController {
             if (fileToOpen != null) {
                 Graph graph = Graph.readFromFile(fileToOpen);
                 graphController.loadGraph(graph);
-
-                graphController.clearCanvas();
-                graphController.drawGraph();
+                graphController.draw();
             } else {
                 System.out.println("file is null");
             }
@@ -252,7 +248,7 @@ public class MainController {
     public void clearGraphButtonPressed(ActionEvent e) {
         clearFields();
         graphController.clearHighlighted();
-        graphController.drawGraph();
+        graphController.draw();
     }
 
     private void clearFields() {
