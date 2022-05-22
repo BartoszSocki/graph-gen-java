@@ -6,6 +6,7 @@ import graph.control.edge.EdgeController;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 public class GraphController {
     @FXML
@@ -38,7 +39,10 @@ public class GraphController {
         if (graph == null)
             throw new NullPointerException("graph is null");
         this.currentGraph = graph;
-        this.graph = new GraphModel(graph);
+
+        // WHITE -> when highlighted
+        // BLACK -> vertices when default
+        this.graph = new GraphModel(graph, Color.WHITE, Color.BLACK);
         drawGraph();
     }
 
@@ -98,7 +102,7 @@ public class GraphController {
                 return;
 
             graph.getVertex(index).toggleHighlight();
-            graph.getVertex(index).draw(gc, dx, dy, graph.getWidth(), graph.getHeight(), side, graph.getMin(), graph.getMax());
+            graph.getVertex(index).draw(gc, dx, dy, graph.getWidth(), graph.getHeight(), side);
 
             this.onVertexClick.click(x, y);
         });
@@ -111,7 +115,7 @@ public class GraphController {
 
         for (var shape : drawable)
             if (shape != null)
-                shape.draw(gc, dx, dy, graph.getWidth(), graph.getHeight(), side, graph.getMin(), graph.getMax());
+                shape.draw(gc, dx, dy, graph.getWidth(), graph.getHeight(), side);
     }
 
     public synchronized void drawGraph() {

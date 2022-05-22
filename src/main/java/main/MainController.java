@@ -118,7 +118,7 @@ public class MainController {
 
     private void resetGraph() {
         graphController.clearHighlighted();
-        graphController.drawGraph();
+        graphController.draw();
     }
 
     public void runDijkstraButtonPressed(ActionEvent e) {
