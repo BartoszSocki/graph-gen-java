@@ -26,7 +26,7 @@ public class MainApplication extends Application {
         stage.setMinHeight(sceneMinHeight);
         stage.setMinWidth(sceneMinWidth);
         stage.show();
-        stage.getIcons().add(new Image(MainApplication.class.getResourceAsStream("icon.jpg")));
+        stage.getIcons().add(new Image(MainApplication.class.getResourceAsStream("icon.png")));
     }
 
     public static void main(String[] args) {
