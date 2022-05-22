@@ -18,7 +18,8 @@ public class GraphController {
     private Graph currentGraph;
 
     public synchronized void draw() {
-        clearCanvas();
+        // clearing canvas
+        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         drawGraph();
     }
 
@@ -31,9 +32,6 @@ public class GraphController {
         for (var edge : getGraphModel().getEdges().values())
             edge.setHighlighted(false);
     }
-    public synchronized void clearCanvas() {
-        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-    }
 
     public void loadGraph(Graph graph) {
         if (graph == null)
@@ -43,7 +41,6 @@ public class GraphController {
         // WHITE -> when highlighted
         // BLACK -> vertices when default
         this.graph = new GraphModel(graph, Color.WHITE, Color.BLACK);
-        drawGraph();
     }
 
     public void highlightPath(Path path, boolean highlightEdges) {
@@ -97,10 +94,11 @@ public class GraphController {
             if (!isInside)
                 return;
 
-            int index = y * graph.getWidth() + x;
+            int index = currentGraph.xyToIndex(x, y);
             if (graph.getVertex(index) == null)
                 return;
 
+            // highlight vertex when clicked
             graph.getVertex(index).toggleHighlight();
             graph.getVertex(index).draw(gc, dx, dy, graph.getWidth(), graph.getHeight(), side);
 
@@ -118,7 +116,7 @@ public class GraphController {
                 shape.draw(gc, dx, dy, graph.getWidth(), graph.getHeight(), side);
     }
 
-    public synchronized void drawGraph() {
+    private void drawGraph() {
         drawDrawable(graph.getEdges().values());
         drawDrawable(graph.getVertices());
     }
@@ -132,7 +130,6 @@ public class GraphController {
     public Canvas getCanvas() {
         return canvas;
     }
-
     public Graph getCurrentGraph() {
         return currentGraph;
     }

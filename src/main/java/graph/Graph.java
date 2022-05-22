@@ -127,7 +127,7 @@ public class Graph {
     }
 
     public boolean isVertexOutOfBounds(int vertex) {
-        return vertex < 0 && vertex >= this.rows * this.cols;
+        return vertex < 0 || vertex >= this.rows * this.cols;
     }
 
     private static double uniformRandom(Random random, double min, double max) {
