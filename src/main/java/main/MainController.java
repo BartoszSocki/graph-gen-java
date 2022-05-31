@@ -210,6 +210,8 @@ public class MainController {
 
     @FXML
     public void loadFromFileButtonPressed(ActionEvent e) {
+        clearFields();
+
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
         File fileToOpen = fileChooser.showOpenDialog(null);
