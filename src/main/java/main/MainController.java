@@ -239,7 +239,7 @@ public class MainController {
             if (f != null) {
                 Graph.writeToFile(graphController.getCurrentGraph(), f.getPath());
             } else {
-
+                Logger.displayError("Save File", "Unexpected IO Error happened");
             }
         } catch (Exception exe) {
             Logger.displayError("Save File", "Cannot save file!");
