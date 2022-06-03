@@ -37,7 +37,7 @@ public class Graph {
     }
 
     public static Graph generateBidirectionalFromSeed(int rows, int cols, double min, double max, long seed) {
-        if (rows < 0 || cols < 0)
+        if (rows <= 0 || cols <= 0)
             throw new IllegalArgumentException("rows and cols cannot be less than 0");
         if (min > max)
             throw new IllegalArgumentException("min cannot be greater than max");

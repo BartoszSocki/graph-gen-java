@@ -42,4 +42,42 @@ class BFSTest {
         Set<Integer> set1 = Arrays.stream(result1.vertices()).boxed().collect(Collectors.toSet());
         assertEquals(set1, new HashSet<>(Arrays.asList(6)));
     }
+
+    @Test
+    void runOn1DHorizontalGraph() {
+        final int rows = 1;
+        final int cols = 10;
+
+        Graph graph = Graph.generateBidirectionalFromSeed(rows, cols, 0, 1, 0);
+        Path result1 = BFS.bfs(graph, 0);
+
+        Set<Integer> correctVertices = new HashSet<>();
+        for (int i = 0; i < cols; i++)
+            correctVertices.add(i);
+
+        Set<Integer> pathVertices = new HashSet<>();
+        for (var v : result1.vertices())
+            pathVertices.add(v);
+
+        assertEquals(correctVertices, pathVertices);
+    }
+
+    @Test
+    void runOn1DVerticalGraph() {
+        final int rows = 10;
+        final int cols = 1;
+
+        Graph graph = Graph.generateBidirectionalFromSeed(rows, cols, 0, 1, 0);
+        Path result1 = BFS.bfs(graph, 0);
+
+        Set<Integer> correctVertices = new HashSet<>();
+        for (int i = 0; i < rows; i++)
+            correctVertices.add(i);
+
+        Set<Integer> pathVertices = new HashSet<>();
+        for (var v : result1.vertices())
+            pathVertices.add(v);
+
+        assertEquals(correctVertices, pathVertices);
+    }
 }
