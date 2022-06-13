@@ -17,8 +17,10 @@ public class Graph {
         int size = rows * cols;
         this.edges = new ArrayList<>(size);
         this.vertices = new ArrayList<>(size);
+
         for (int i = 0; i < size; i++)
             edges.add(i, new LinkedList<>());
+
         for (int i = 0; i < size; i++)
             vertices.add(i, null);
     }
