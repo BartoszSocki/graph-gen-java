@@ -94,7 +94,7 @@ public class GraphController {
             if (!isInside)
                 return;
 
-            int index = currentGraph.xyToIndex(x, y);
+            int index = currentGraph.xyToIndex(y, x);
             if (graph.getVertex(index) == null)
                 return;
 

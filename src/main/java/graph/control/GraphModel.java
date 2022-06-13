@@ -26,9 +26,10 @@ public class GraphModel {
         this.vertices = new ArrayList<>(Collections.nCopies(width * height, null));
         this.edges = new HashMap<>(width * height);
 
-        for (var vertex : graph.getVertices())
+        for (var vertex : graph.getVertices()) {
             if (vertex != null)
                 addVertex(vertex, highlightColor, defaultColor);
+        }
 
         double tempMin = Double.POSITIVE_INFINITY;
         double tempMax = Double.NEGATIVE_INFINITY;
